@@ -44,7 +44,7 @@ public class PlayerCtrl : MonoBehaviour
         float movX = Input.GetAxis("Horizontal");
         float movY = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2(movX, movY).normalized;
+        //Vector2 movement = new Vector2(movX, movY).normalized;
 
         //Walking + animation 
         if (movX > 0 && faceLeft)
@@ -84,7 +84,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         if (isJumping)
         {
-            rb.velocity = movement * movSpeed * jumpSpeedMultiplier;
+            rb.velocity = new Vector2(speedX, speedY) * movSpeed * jumpSpeedMultiplier;
             if (Time.time > jumpEndTime)
             {
                 isJumping = false;
@@ -93,7 +93,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         //else
         //{
-        //    rb.velocity = movement * movSpeed;
+        //    rb.velocity = new Vector2(speedX, speedY) * movSpeed;
         //}
 
         speedX = Input.GetAxis("Horizontal") * movSpeed;
