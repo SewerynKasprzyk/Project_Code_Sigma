@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    public float movSpeed;
     public Rigidbody2D rb;
 
     private Animator anim;
@@ -14,19 +13,34 @@ public class PlayerCtrl : MonoBehaviour
     public float jumpSpeedMultiplier;
     private bool isJumping;
     private float jumpEndTime;
+    float speedX, speedY;
 
     private bool faceLeft = false;
+
+    private float movSpeed;
+    private PlayerStats playerStats;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        playerStats = GetComponent<PlayerStats>();
+        if (playerStats != null)
+        {
+            movSpeed = playerStats.playerMovementSpeed;
+        }
+        else
+        {
+            Debug.Log("Player component not found.");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerStats = GetComponent<PlayerStats>();
         float movX = Input.GetAxis("Horizontal");
         float movY = Input.GetAxis("Vertical");
 
@@ -35,14 +49,14 @@ public class PlayerCtrl : MonoBehaviour
         //Walking + animation 
         if (movX > 0 && faceLeft)
         {
-            rb.velocity = new Vector2(movX * movSpeed, rb.velocity.y);
+            //rb.velocity = new Vector2(movX * movSpeed, rb.velocity.y);
             anim.SetBool("isWalking", true);
             Flip();
             faceLeft = false;
         }
-        if (movY > 0 && !faceLeft)
+        if (movX < 0 && !faceLeft)
         {
-            rb.velocity = new Vector2(rb.velocity.x, movY * movSpeed);
+            //rb.velocity = new Vector2(rb.velocity.x, movY * movSpeed);
             anim.SetBool("isWalking", true);
             Flip();
             faceLeft = true;
@@ -77,10 +91,14 @@ public class PlayerCtrl : MonoBehaviour
                 anim.SetBool("isDashing", false);
             }
         }
-        else
-        {
-            rb.velocity = movement * movSpeed;
-        }
+        //else
+        //{
+        //    rb.velocity = movement * movSpeed;
+        //}
+
+        speedX = Input.GetAxis("Horizontal") * movSpeed;
+        speedY = Input.GetAxis("Vertical") * movSpeed;
+        rb.velocity = new Vector2(speedX, speedY);
     }
 
     public void endAttack()

@@ -3333,6 +3333,7 @@ GameObject:
   - component: {fileID: 1372625763}
   - component: {fileID: 1372625762}
   - component: {fileID: 1372625764}
+  - component: {fileID: 1372625765}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3446,7 +3447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a17e65232a7cd4e8744ebdad832342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movSpeed: 5
   rb: {fileID: 1372625761}
   jumpDuration: 1
   jumpSpeedMultiplier: 2
@@ -3516,6 +3516,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1372625765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372625758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251b845c6eafbf240b817d0f47d94b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHp: 10
+  playerMovementSpeed: 5
+  playerDamage: 0
+  player: {fileID: 1372625761}
 --- !u!1 &2011799202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3529,6 +3545,7 @@ GameObject:
   - component: {fileID: 2011799205}
   - component: {fileID: 2011799206}
   - component: {fileID: 2011799207}
+  - component: {fileID: 2011799208}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -3690,6 +3707,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2011799208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011799202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4547d062d07a4428c480a57907be55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHp: 10
+  enemyMovementSpeed: 2
+  enemyDamage: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
