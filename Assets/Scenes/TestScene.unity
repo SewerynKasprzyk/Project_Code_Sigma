@@ -3448,6 +3448,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movSpeed: 5
   rb: {fileID: 1372625761}
+  jumpDuration: 1
+  jumpSpeedMultiplier: 2
 --- !u!61 &1372625763
 BoxCollider2D:
   m_ObjectHideFlags: 0
