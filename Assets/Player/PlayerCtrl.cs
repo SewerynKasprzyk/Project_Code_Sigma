@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerCtrl : MonoBehaviour
 {
     public Rigidbody2D rb;
-
     private Animator anim;
+    private Collider2D col;
 
     //Dashing variables
     public float dashDuration;
@@ -19,13 +19,17 @@ public class PlayerCtrl : MonoBehaviour
     private float movSpeed;
     private PlayerStats playerStats;
 
+    //dodac po tagu sciane i w razie kolizji ze scnia col enable = true
+    //animacja atkaowania dopiero po skonczeniu animacji chodzniea
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
         playerStats = GetComponent<PlayerStats>();
+        col = GetComponent<Collider2D>();
+
         if (playerStats != null)
         {
             movSpeed = playerStats.playerMovementSpeed;
@@ -84,11 +88,19 @@ public class PlayerCtrl : MonoBehaviour
         if (isDashing)
         {
             rb.velocity = movement * movSpeed * dashSpeedMultiplier;
+
+            if(col != null)
+            {
+                col.enabled = false;
+            }
+            
             if (Time.time > dashEndTime)
             {
                 isDashing = false;
                 anim.SetBool("isDashing", false);
+                col.enabled = true;
             }
+            
         }
         else
         {
@@ -99,6 +111,11 @@ public class PlayerCtrl : MonoBehaviour
     public void endAttack()
     {
         anim.SetBool("isAttacking", false);
+    }
+
+    public void endDash()
+    {
+        anim.SetBool("isDashing", false);
     }
 
     private void Flip()
