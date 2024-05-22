@@ -8,12 +8,11 @@ public class PlayerCtrl : MonoBehaviour
 
     private Animator anim;
 
-    //Jumping variables
-    public float jumpDuration;
-    public float jumpSpeedMultiplier;
-    private bool isJumping;
-    private float jumpEndTime;
-    float speedX, speedY;
+    //Dashing variables
+    public float dashDuration;
+    public float dashSpeedMultiplier;
+    private bool isDashing;
+    private float dashEndTime;
 
     private bool faceLeft = false;
 
@@ -44,20 +43,20 @@ public class PlayerCtrl : MonoBehaviour
         float movX = Input.GetAxis("Horizontal");
         float movY = Input.GetAxis("Vertical");
 
-        //Vector2 movement = new Vector2(movX, movY).normalized;
+        Vector2 movement = new Vector2(movX, movY).normalized;
 
         //Walking + animation 
-        if (movX > 0 && faceLeft)
+        if (movX != 0 || movY != 0)
         {
-            //rb.velocity = new Vector2(movX * movSpeed, rb.velocity.y);
             anim.SetBool("isWalking", true);
+        }
+        if(movX > 0 && faceLeft)
+        {
             Flip();
             faceLeft = false;
         }
-        if (movX < 0 && !faceLeft)
+        if(movX < 0 && !faceLeft)
         {
-            //rb.velocity = new Vector2(rb.velocity.x, movY * movSpeed);
-            anim.SetBool("isWalking", true);
             Flip();
             faceLeft = true;
         }
@@ -75,34 +74,30 @@ public class PlayerCtrl : MonoBehaviour
             anim.SetBool("isAttacking", true);
         }
 
-        //Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        //Dashing animation
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
         {
-            isJumping = true;
-            jumpEndTime = Time.time + jumpDuration;
+            isDashing = true;
+            dashEndTime = Time.time + dashDuration;
             anim.SetBool("isDashing", true);
         }
-        if (isJumping)
+        if (isDashing)
         {
-            rb.velocity = new Vector2(speedX, speedY) * movSpeed * jumpSpeedMultiplier;
-            if (Time.time > jumpEndTime)
+            rb.velocity = movement * movSpeed * dashSpeedMultiplier;
+            if (Time.time > dashEndTime)
             {
-                isJumping = false;
+                isDashing = false;
                 anim.SetBool("isDashing", false);
             }
         }
-        //else
-        //{
-        //    rb.velocity = new Vector2(speedX, speedY) * movSpeed;
-        //}
-
-        speedX = Input.GetAxis("Horizontal") * movSpeed;
-        speedY = Input.GetAxis("Vertical") * movSpeed;
-        rb.velocity = new Vector2(speedX, speedY);
+        else
+        {
+            rb.velocity = movement * movSpeed;
+        }
     }
 
     public void endAttack()
-    { 
+    {
         anim.SetBool("isAttacking", false);
     }
 
