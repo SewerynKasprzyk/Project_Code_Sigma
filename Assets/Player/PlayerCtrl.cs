@@ -79,7 +79,7 @@ public class PlayerCtrl : MonoBehaviour
         }
 
         //Dashing animation
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && (movX != 0 || movY != 0))
         {
             isDashing = true;
             dashEndTime = Time.time + dashDuration;
