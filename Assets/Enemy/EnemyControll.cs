@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyControll : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     private Animator anim;
     public float speed;
     public float distanceBetween;
@@ -16,6 +16,7 @@ public class EnemyControll : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        player = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame
@@ -32,7 +33,6 @@ public class EnemyControll : MonoBehaviour
         distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = (player.transform.position - transform.position);
         direction.Normalize();
-
 
         if (distance < distanceBetween)
         {
