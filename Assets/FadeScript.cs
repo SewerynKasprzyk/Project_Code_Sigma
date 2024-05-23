@@ -21,6 +21,18 @@ public class FadeScript : MonoBehaviour
         fadeOut = true;
     }
 
+    public void ShowInstantUI()
+    {
+        myUIGroup.alpha = 1;
+        fadeIn = false;
+    }
+
+    public void HideInstantUI()
+    {
+        myUIGroup.alpha = 0;
+        fadeOut = false;
+    }
+
     private void Update()
     {
         if (fadeIn)

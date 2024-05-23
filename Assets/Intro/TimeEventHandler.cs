@@ -12,6 +12,11 @@ public class TimeEventHandler : MonoBehaviour
 
     private void Start()
     {
+        //Prepare canvas to be hidden
+        fadeScriptVideoCanvas.HideInstantUI();
+        fadeScriptLogoCanvas.HideInstantUI();
+        fadeScriptGameNameCanvas.HideInstantUI();
+
         FunctionTimer.CreateTimer(() => fadeScriptVideoCanvas.ShowUI(), 0f, "ShowIntro");
 
         FunctionTimer.CreateTimer(() => fadeScriptLogoCanvas.ShowUI(), 3f, "ShowLogo");

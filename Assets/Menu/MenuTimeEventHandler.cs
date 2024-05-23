@@ -11,6 +11,10 @@ public class MenuTimeEventHandler : MonoBehaviour
 
     private void Start()
     {
+        //prepare canvas to be hidden
+        fadeScriptMenuVideoCanvas.HideInstantUI();
+        fadeScriptMenuCanvas.HideInstantUI();
+
         FunctionTimer.CreateTimer(() => fadeScriptMenuVideoCanvas.ShowUI(), 0.5f, "ShowMenu");
         FunctionTimer.CreateTimer(() => fadeScriptMenuCanvas.ShowUI(), 2f, "ShowMenu");
 
