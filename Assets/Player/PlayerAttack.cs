@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -13,8 +14,9 @@ public class PlayerAttack : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        attackArea = transform.GetChild(0).gameObject;
+    {       
+       attackArea = transform.GetChild(0).gameObject;
+       attackArea.SetActive(attacking);
     }
 
     // Update is called once per frame

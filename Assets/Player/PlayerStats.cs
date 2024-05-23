@@ -31,5 +31,4 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Current: " + playerHp);
         }
     }
-    
 }
