@@ -54,23 +54,12 @@ public class PlayerCtrl : MonoBehaviour
         {
             anim.SetBool("isWalking", true);
         }
-        if(movX > 0 && faceLeft)
-        {
-            Flip();
-            faceLeft = false;
-        }
-        if(movX < 0 && !faceLeft)
-        {
-            Flip();
-            faceLeft = true;
-        }
 
         //Idle animation
         if (movX == 0 && movY == 0)
         {
             anim.SetBool("isWalking", false);
         }
-
 
         //Attacking animation
         if (Input.GetMouseButtonDown(0))
@@ -107,14 +96,32 @@ public class PlayerCtrl : MonoBehaviour
         {
             rb.velocity = movement * movSpeed;
         }
+
+        RotateTowardsCursor();
     }
 
-    public void endAttack()
+    private void RotateTowardsCursor()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 direction = (mousePosition - transform.position).normalized;
+
+        if (direction.x < 0 && !faceLeft)
+        {
+            Flip();
+            faceLeft = true;
+        }
+        else if (direction.x > 0 && faceLeft)
+        {
+            Flip();
+            faceLeft = false;
+        }
+    }
+    public void EndAttack()
     {
         anim.SetBool("isAttacking", false);
     }
 
-    public void endDash()
+    public void EndDash()
     {
         anim.SetBool("isDashing", false);
     }

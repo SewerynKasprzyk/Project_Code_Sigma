@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
         
     }
 
-    private void GetDamage(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyStats enemyCollision = collision.gameObject.GetComponent<EnemyStats>();
         if(enemyCollision != null)
