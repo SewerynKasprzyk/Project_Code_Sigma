@@ -2,13 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : ScriptableObject
+public class Item : MonoBehaviour
 {
     private static int nextItemID = 0;
     private int itemID;
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
-    [SerializeField] private Sprite itemIcon;
+    [SerializeField] private Sprite itemSprite;
+    [SerializeField] private string itemType;
+    private InventoryManager inventoryManager;
+
+    private void Start()
+    {
+        inventoryManager = GameObject.Find("InventoryWeaponsCanvas").GetComponent<InventoryManager>();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            inventoryManager.AddItem(itemName, itemSprite);
+            Destroy(gameObject);
+        }
+
+    }
 
     protected Item()
     {
