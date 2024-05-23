@@ -22,5 +22,17 @@ public class EnemyStats : MonoBehaviour
 
     }
 
+    public void TakeDamage(int damage)
+    {
+        enemyHp -= damage;
+        if (enemyHp <= 0)
+        {
+            Die();
+        }
+    }
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
   
 }

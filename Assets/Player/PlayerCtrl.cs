@@ -75,6 +75,7 @@ public class PlayerCtrl : MonoBehaviour
         //Attacking animation
         if (Input.GetMouseButtonDown(0))
         {
+            anim.SetBool("isWalking", false);
             anim.SetBool("isAttacking", true);
         }
 
