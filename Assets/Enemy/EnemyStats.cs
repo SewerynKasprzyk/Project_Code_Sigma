@@ -69,6 +69,7 @@ public class EnemyStats : MonoBehaviour
     }
     public void Die()
     {
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 
