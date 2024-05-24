@@ -24,6 +24,7 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log("Added " + itemName + " to inventory");
 
+
         for (int i = 0; i < itemSlot.Length; i++)
         {
             if (itemSlot[i].isFull == false)
@@ -33,6 +34,29 @@ public class InventoryManager : MonoBehaviour
                 return;
             }
         }
-        
     }
+
+    public void ReplaceItem(int slotIndex, Item item)
+    {
+
+        itemSlot[slotIndex].AddItem(item.GetItemName(), item.GetItemSprite());
+        itemSlot[slotIndex].isFull = true;
+        Debug.Log("Replaced item in slot " + slotIndex);
+    }
+
+    public bool IsInventoryFull()
+    {
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].isFull == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+ 
 }

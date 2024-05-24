@@ -17,11 +17,8 @@ public class ItemSlot : MonoBehaviour
     public void AddItem(string itemName, Sprite itemSprite)
     {
         this.itemName = itemName;
-        Debug.Log("acc1");
         this.itemSprite = itemSprite;
-        Debug.Log("acc2");
         itemImage.sprite = itemSprite;
-        Debug.Log("acc3");
     }
  
 
