@@ -19,6 +19,8 @@ public class PlayerCtrl : MonoBehaviour
     private float movSpeed;
     private PlayerStats playerStats;
 
+    private List<Collider2D> ignoredColliders = new List<Collider2D>();
+
     //dodac po tagu sciane i w razie kolizji ze scnia col enable = true
     //animacja atkaowania dopiero po skonczeniu animacji chodzniea
 
@@ -62,7 +64,7 @@ public class PlayerCtrl : MonoBehaviour
         }
 
         //Attacking animation
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && anim.GetBool("isAttacking") == false) 
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isAttacking", true);
@@ -74,22 +76,19 @@ public class PlayerCtrl : MonoBehaviour
             isDashing = true;
             dashEndTime = Time.time + dashDuration;
             anim.SetBool("isDashing", true);
+            DisableNonWallCollisions();
         }
         if (isDashing)
         {
             rb.velocity = movement * movSpeed * dashSpeedMultiplier;
 
-            if(col != null)
-            {
-                col.enabled = false;
-            }
-            
             if (Time.time > dashEndTime)
             {
                 isDashing = false;
                 anim.SetBool("isDashing", false);
                 col.enabled = true;
-            }
+                EnableAllCollisions();
+            }           
             
         }
         else
@@ -132,4 +131,27 @@ public class PlayerCtrl : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+    private void DisableNonWallCollisions()
+    {
+        Collider2D[] colliders = FindObjectsOfType<Collider2D>();
+        foreach (Collider2D otherCol in colliders)
+        {
+            if (otherCol != col && !otherCol.CompareTag("Wall"))
+            {
+                Physics2D.IgnoreCollision(col, otherCol, true);
+                ignoredColliders.Add(otherCol);
+            }
+        }
+    }
+
+    private void EnableAllCollisions()
+    {
+        foreach (Collider2D otherCol in ignoredColliders)
+        {
+            Physics2D.IgnoreCollision(col, otherCol, false);
+        }
+        ignoredColliders.Clear();
+    }
+
 }
