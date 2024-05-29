@@ -96,8 +96,6 @@ public class PlayerCtrl : MonoBehaviour
         {
             rb.velocity = movement * movSpeed;
         }
-
-        Debug.Log("Attack bool: " + anim.GetBool("isAttacking"));
     }
 
     private void RotateTowardsCursor()
