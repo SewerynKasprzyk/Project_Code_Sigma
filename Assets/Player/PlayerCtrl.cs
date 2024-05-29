@@ -21,6 +21,11 @@ public class PlayerCtrl : MonoBehaviour
 
     private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
+    //Attack variables
+    private float attackDuration = 0.5f;
+    private float attackEndTime;
+
+
     //dodac po tagu sciane i w razie kolizji ze scnia col enable = true
     //animacja atkaowania dopiero po skonczeniu animacji chodzniea
 
@@ -70,6 +75,12 @@ public class PlayerCtrl : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isAttacking", true);
+            attackEndTime = Time.time + attackDuration; 
+        }
+        if (anim.GetBool("isAttacking") == true &&  Time.time > attackEndTime)
+        {
+            anim.SetBool("isAttacking", false);
+            anim.SetBool("isWalking", true);
         }
 
         //Dashing animation
@@ -117,6 +128,7 @@ public class PlayerCtrl : MonoBehaviour
     public void EndAttack()
     {
         anim.SetBool("isAttacking", false);
+        anim.SetBool("isWalking", true);
     }
 
     public void EndDash()
