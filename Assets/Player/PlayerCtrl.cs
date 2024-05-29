@@ -45,11 +45,13 @@ public class PlayerCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RotateTowardsCursor();
+
         playerStats = GetComponent<PlayerStats>();
         float movX = Input.GetAxis("Horizontal");
         float movY = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2(movX, movY).normalized;
+        Vector2 movement = new Vector2(movX, movY).normalized;        
 
         //Walking + animation 
         if (movX != 0 || movY != 0)
@@ -88,15 +90,14 @@ public class PlayerCtrl : MonoBehaviour
                 anim.SetBool("isDashing", false);
                 col.enabled = true;
                 EnableAllCollisions();
-            }           
-            
+            }            
         }
         else
         {
             rb.velocity = movement * movSpeed;
         }
 
-        RotateTowardsCursor();
+        Debug.Log("Attack bool: " + anim.GetBool("isAttacking"));
     }
 
     private void RotateTowardsCursor()
@@ -153,5 +154,4 @@ public class PlayerCtrl : MonoBehaviour
         }
         ignoredColliders.Clear();
     }
-
 }
