@@ -47,7 +47,6 @@ public class EnemyStats : MonoBehaviour
         }
         else
         {
-            anim.SetBool("isHurt", false);
             PlayHurtAnimation();
             ApplyKnockback(knockbackDirection, knockbackForce, stunDuration);
             StartCoroutine(StunEnemy());
@@ -79,7 +78,7 @@ public class EnemyStats : MonoBehaviour
 
     private void PlayHurtAnimation()
     {
-        
+        anim.SetBool("isHurt", false);
         anim.SetBool("isHurt", true);
     }
 
