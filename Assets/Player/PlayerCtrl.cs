@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
@@ -154,6 +155,11 @@ public class PlayerCtrl : MonoBehaviour
                 ignoredColliders.Add(otherCol);
             }
         }
+    }
+
+    public void DeathAnimation()
+    {
+        anim.SetBool("isDead", true);
     }
 
     private void EnableAllCollisions()

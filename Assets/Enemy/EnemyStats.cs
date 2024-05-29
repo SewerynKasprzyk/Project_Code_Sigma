@@ -34,24 +34,27 @@ public class EnemyStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackForce)
     {
-        
         enemyHp -= damage;
+
         if (enemyHp <= 0)
         {
-            //tu zniamcaj deda enemyS
-            Die();
+            anim.SetBool("isDead", true);
+            enemyControll.speed = 0;
         }
         else
         {
+            anim.SetBool("isHurt", false);
             PlayHurtAnimation();
             ApplyKnockback(knockbackDirection, knockbackForce, stunDuration);
             StartCoroutine(StunEnemy());
         }
     }
+
+   
 
     public IEnumerator ApplyKnockback(Vector2 knockbackDirection, float knockbackForce, float knockbackDuration)
     {
@@ -67,6 +70,7 @@ public class EnemyStats : MonoBehaviour
             yield return null;
         }
     }
+    
     public void Die()
     {
         StopAllCoroutines();
@@ -75,7 +79,8 @@ public class EnemyStats : MonoBehaviour
 
     private void PlayHurtAnimation()
     {
-        anim.SetBool("isHurt", true);   
+        
+        anim.SetBool("isHurt", true);
     }
 
     private void EndHurt()

@@ -82,5 +82,9 @@ public class EnemyControll : MonoBehaviour
     {
         anim.SetBool("isIdle", false);
     }
+    private void EndDeath()
+    {
+        anim.SetBool("isDead", false);
+    }
 
 }
