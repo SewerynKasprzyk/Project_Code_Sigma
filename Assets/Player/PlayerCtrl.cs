@@ -19,6 +19,13 @@ public class PlayerCtrl : MonoBehaviour
     private float movSpeed;
     private PlayerStats playerStats;
 
+    private List<Collider2D> ignoredColliders = new List<Collider2D>();
+
+    //Attack variables
+    private float attackDuration = 0.5f;
+    private float attackEndTime;
+
+
     //dodac po tagu sciane i w razie kolizji ze scnia col enable = true
     //animacja atkaowania dopiero po skonczeniu animacji chodzniea
 
@@ -43,11 +50,13 @@ public class PlayerCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RotateTowardsCursor();
+
         playerStats = GetComponent<PlayerStats>();
         float movX = Input.GetAxis("Horizontal");
         float movY = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2(movX, movY).normalized;
+        Vector2 movement = new Vector2(movX, movY).normalized;        
 
         //Walking + animation 
         if (movX != 0 || movY != 0)
@@ -62,10 +71,16 @@ public class PlayerCtrl : MonoBehaviour
         }
 
         //Attacking animation
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && anim.GetBool("isAttacking") == false) 
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isAttacking", true);
+            attackEndTime = Time.time + attackDuration; 
+        }
+        if (anim.GetBool("isAttacking") == true &&  Time.time > attackEndTime)
+        {
+            anim.SetBool("isAttacking", false);
+            anim.SetBool("isWalking", true);
         }
 
         //Dashing animation
@@ -74,30 +89,24 @@ public class PlayerCtrl : MonoBehaviour
             isDashing = true;
             dashEndTime = Time.time + dashDuration;
             anim.SetBool("isDashing", true);
+            DisableNonWallCollisions();
         }
         if (isDashing)
         {
             rb.velocity = movement * movSpeed * dashSpeedMultiplier;
 
-            if(col != null)
-            {
-                col.enabled = false;
-            }
-            
             if (Time.time > dashEndTime)
             {
                 isDashing = false;
                 anim.SetBool("isDashing", false);
                 col.enabled = true;
-            }
-            
+                EnableAllCollisions();
+            }            
         }
         else
         {
             rb.velocity = movement * movSpeed;
         }
-
-        RotateTowardsCursor();
     }
 
     private void RotateTowardsCursor()
@@ -119,6 +128,7 @@ public class PlayerCtrl : MonoBehaviour
     public void EndAttack()
     {
         anim.SetBool("isAttacking", false);
+        anim.SetBool("isWalking", true);
     }
 
     public void EndDash()
@@ -131,5 +141,27 @@ public class PlayerCtrl : MonoBehaviour
         var theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void DisableNonWallCollisions()
+    {
+        Collider2D[] colliders = FindObjectsOfType<Collider2D>();
+        foreach (Collider2D otherCol in colliders)
+        {
+            if (otherCol != col && !otherCol.CompareTag("Wall"))
+            {
+                Physics2D.IgnoreCollision(col, otherCol, true);
+                ignoredColliders.Add(otherCol);
+            }
+        }
+    }
+
+    private void EnableAllCollisions()
+    {
+        foreach (Collider2D otherCol in ignoredColliders)
+        {
+            Physics2D.IgnoreCollision(col, otherCol, false);
+        }
+        ignoredColliders.Clear();
     }
 }

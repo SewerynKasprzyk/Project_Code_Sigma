@@ -60,16 +60,16 @@ public class EnemyControll : MonoBehaviour
        
     }
 
-    public void Stun(float duration)
+    public void Stun(float stunDuration)
     {
-        StartCoroutine(StunCoroutine(duration));
+        StartCoroutine(StunCoroutine(stunDuration));
     }
 
-    public IEnumerator StunCoroutine(float duration)
+    public IEnumerator StunCoroutine(float stunDuration)
     {
         isStunned = true;
         anim.SetBool("isWalking", false); // Stop walking animation if stunned
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(stunDuration);
         isStunned = false;
     }
 
