@@ -18,6 +18,9 @@ public class PlayerStats : MonoBehaviour
 
     private PlayerCtrl playerCtrl;
 
+    private float lastDamageTime = -1;
+    public float damageCooldown = 1.0f;
+
     void Start()
     {
         GameObject.DontDestroyOnLoad(this.gameObject);
@@ -32,8 +35,14 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (damage <= 0) return;
+
         playerHp -= damage;
         Debug.Log("Current: " + playerHp);
+
+        // Tworzenie popupu z obra¿eniami
+        GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+        popUp.GetComponentInChildren<TMP_Text>().text = damage.ToString();
 
         if (playerHp <= 0)
         {
@@ -44,18 +53,22 @@ public class PlayerStats : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyStats enemyCollision = collision.gameObject.GetComponent<EnemyStats>();
-        if(enemyCollision != null)
+        if (enemyCollision != null)
         {
-            playerHp = playerHp - enemyCollision.enemyDamage;
-            Debug.Log("Current: " + playerHp);
+            // Odejmowanie zwyk³ych obra¿eñ
+            TakeDamage(enemyCollision.enemyDamage);
 
-            GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
-            if(enemyCollision.enemyDamage > 0)
+            // Sprawdzenie, czy up³yn¹³ wystarczaj¹cy czas od ostatniego otrzymania obra¿eñ od broni
+            if (Time.time - lastDamageTime > damageCooldown)
             {
-                popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
-            }           
-            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyWeaponDamage.ToString();
+                // Odejmowanie obra¿eñ od broni
+                TakeDamage(enemyCollision.enemyWeaponDamage);
 
+                // Aktualizacja czasu ostatniego otrzymania obra¿eñ
+                lastDamageTime = Time.time;
+            }
         }
     }
+
+
 }
