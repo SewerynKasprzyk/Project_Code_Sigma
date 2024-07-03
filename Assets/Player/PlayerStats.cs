@@ -53,9 +53,9 @@ public class PlayerStats : MonoBehaviour
             if(enemyCollision.enemyDamage > 0)
             {
                 popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
-            }           
+            }
+            
             popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyWeaponDamage.ToString();
-
         }
     }
 }
