@@ -12,11 +12,19 @@ public class EnemyControll : MonoBehaviour
     private float distance;
     private bool isStunned = false;
 
+    private EnemyStats enemyStats;
+    private PolygonCollider2D attackCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
+        enemyStats = GetComponent<EnemyStats>();
+
+        attackCollider = GetComponentInChildren<PolygonCollider2D>();
+
+        attackCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -25,6 +33,13 @@ public class EnemyControll : MonoBehaviour
         if (!isStunned)
         {
             AIChase();
+
+            float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+            if (distanceToPlayer <= enemyStats.enemyAttackRange)
+            {
+                StartAttackAnimation();
+            }
         }
     }
 
@@ -111,6 +126,36 @@ public class EnemyControll : MonoBehaviour
     private void EndAttack()
     {
         anim.SetBool("isAttacking", false);
+
+        //if (attackCollider != null)
+        //{
+        //    attackCollider.enabled = false;
+        //}
     }
 
+    private void StartAttackAnimation()
+    {
+        anim.SetBool("isAttacking", true);
+
+        //if (attackCollider != null)
+        //{
+        //    attackCollider.enabled = true;
+        //}
+    }
+
+    private void StartAtackHitbox()
+    {     
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = true;
+        }
+    }
+
+    private void EndAttackHitbox()
+    {
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = false;
+        }
+    }
 }

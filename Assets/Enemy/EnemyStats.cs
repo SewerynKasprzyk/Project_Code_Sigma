@@ -9,11 +9,14 @@ public class EnemyStats : MonoBehaviour
 
     public float enemyHp;
     public float enemyDamage;
+    public float enemyWeaponDamage;
     public float stunDuration = 0.2f;
+    public float enemyAttackRange = 1f;
 
     private Animator anim;
     private Rigidbody2D enemy;
     private EnemyControll enemyControll;
+
 
     void Start()
     {
@@ -53,12 +56,6 @@ public class EnemyStats : MonoBehaviour
         }
     }
 
-    public void DealDamage()
-    {
-
-    }
-
-
 
     public IEnumerator ApplyKnockback(Vector2 knockbackDirection, float knockbackForce, float knockbackDuration)
     {
@@ -74,7 +71,23 @@ public class EnemyStats : MonoBehaviour
             yield return null;
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D attackArea)
+    {
+        if(attackArea.CompareTag("Player"))
+        {
+            float distanceToPlayer = Vector2.Distance(transform.position, attackArea.transform.position);
+
+            if (distanceToPlayer <= enemyAttackRange)
+            {
+                PlayerStats playerStats = attackArea.GetComponent<PlayerStats>();
+                {
+                    playerStats.playerHp -= enemyWeaponDamage;
+                }
+            }
+        }
+    }
+
     public void Die()
     {
         StopAllCoroutines();
@@ -83,7 +96,6 @@ public class EnemyStats : MonoBehaviour
 
     private void PlayHurtAnimation()
     {
-        //anim.SetBool("isWalking", false);
         anim.SetBool("isHurt", false);
         anim.SetBool("isHurt", true);
     }
