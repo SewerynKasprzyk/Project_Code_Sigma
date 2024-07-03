@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
@@ -52,7 +53,12 @@ public class EnemyStats : MonoBehaviour
         }
     }
 
-   
+    public void DealDamage()
+    {
+
+    }
+
+
 
     public IEnumerator ApplyKnockback(Vector2 knockbackDirection, float knockbackForce, float knockbackDuration)
     {
@@ -77,6 +83,7 @@ public class EnemyStats : MonoBehaviour
 
     private void PlayHurtAnimation()
     {
+        //anim.SetBool("isWalking", false);
         anim.SetBool("isHurt", false);
         anim.SetBool("isHurt", true);
     }
