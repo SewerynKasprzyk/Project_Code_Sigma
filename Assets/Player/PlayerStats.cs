@@ -50,11 +50,12 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Current: " + playerHp);
 
             GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
-            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
+            if(enemyCollision.enemyDamage > 0)
+            {
+                popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
+            }           
+            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyWeaponDamage.ToString();
 
         }
-
-        
-
     }
 }

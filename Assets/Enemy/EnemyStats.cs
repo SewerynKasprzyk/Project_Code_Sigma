@@ -11,7 +11,7 @@ public class EnemyStats : MonoBehaviour
     public float enemyDamage;
     public float enemyWeaponDamage;
     public float stunDuration = 0.2f;
-    public float enemyAttackRange = 1f;
+    public float enemyAttackRange = 1.5f;
 
     private Animator anim;
     private Rigidbody2D enemy;
