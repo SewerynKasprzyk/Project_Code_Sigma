@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemCollisonHandler : MonoBehaviour
 {
     [SerializeField] private GameObject DialogWindowPanel;
-    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private InventoryManager IventoryManager;
     private Item currentItem;
     //chyba do zmiany
     private bool isPressedE = false; 
@@ -35,7 +35,7 @@ public class ItemCollisonHandler : MonoBehaviour
         if(!actionPerformed && isPressedE)
         {
             Debug.Log("Przesz³o");
-            inventoryManager.ReplaceItem(0, currentItem);
+            IventoryManager.ReplaceItem(0, currentItem);
             Debug.Log("Zmiana");
             Destroy(currentItem.gameObject);
             actionPerformed = true;

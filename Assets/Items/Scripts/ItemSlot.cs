@@ -19,8 +19,25 @@ public class ItemSlot : MonoBehaviour
         this.itemName = itemName;
         this.itemSprite = itemSprite;
         itemImage.sprite = itemSprite;
+        isFull = true;
     }
- 
+
+    public void SelectedInventoryItem()
+    {
+        if(Event.current.Equals(Event.KeyboardEvent("1")))
+        {
+            Debug.Log("1");
+        }
+        if (Event.current.Equals(Event.KeyboardEvent("2")))
+        {
+            Debug.Log("2");
+        }
+        if (Event.current.Equals(Event.KeyboardEvent("3")))
+        {
+            Debug.Log("3");
+        }
+    }
+
 
 
     // Start is called before the first frame update

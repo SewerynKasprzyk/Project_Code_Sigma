@@ -24,13 +24,11 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log("Added " + itemName + " to inventory");
 
-
         for (int i = 0; i < itemSlot.Length; i++)
         {
             if (itemSlot[i].isFull == false)
             {
                 itemSlot[i].AddItem(itemName, itemSprite);
-                itemSlot[i].isFull = true;
                 return;
             }
         }

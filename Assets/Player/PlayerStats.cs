@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current: " + playerHp);
+        //Debug.Log("Current: " + playerHp);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
