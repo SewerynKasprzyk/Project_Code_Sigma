@@ -7,7 +7,6 @@ public class EnemyStats : MonoBehaviour
     // Start is called before the first frame update
 
     public float enemyHp;
-    public float enemyMovementSpeed;
     public float enemyDamage;
     public float stunDuration = 0.2f;
 

@@ -40,17 +40,38 @@ public class EnemyControll : MonoBehaviour
             transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
 
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+            PolygonCollider2D polygonCollider = GetComponent<PolygonCollider2D>();
 
             // Flip the sprite depending on the player's position
             if (player.transform.position.x < transform.position.x)
             {
                 // Player is on the left side, flip the sprite
                 spriteRenderer.flipX = true;
+
+                boxCollider.offset = new Vector2(-boxCollider.offset.x, boxCollider.offset.y);
+
+                Vector2[] points = polygonCollider.points;
+                for (int i = 0; i < points.Length; i++)
+                {
+                    points[i].x = -points[i].x;
+                }
+                polygonCollider.points = points;
+
             }
             else
             {
                 // Player is on the right side, don't flip the sprite
                 spriteRenderer.flipX = false;
+
+                boxCollider.offset = new Vector2(Mathf.Abs(boxCollider.offset.x), boxCollider.offset.y);
+
+                Vector2[] points = polygonCollider.points;
+                for (int i = 0; i < points.Length; i++)
+                {
+                    points[i].x = Mathf.Abs(points[i].x);
+                }
+                polygonCollider.points = points;
             }
         }
         else
@@ -85,6 +106,11 @@ public class EnemyControll : MonoBehaviour
     private void EndDeath()
     {
         anim.SetBool("isDead", false);
+    }
+
+    private void EndAttack()
+    {
+        anim.SetBool("isAttacking", false);
     }
 
 }
