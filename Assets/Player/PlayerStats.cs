@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class PlayerStats : MonoBehaviour
     public float playerHp;
     public float playerMovementSpeed;
     public float playerDamage;
+
+    public GameObject popUpPrefab;
 
     public Rigidbody2D player;
 
@@ -20,7 +24,7 @@ public class PlayerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current: " + playerHp);
+        //Debug.Log("Current: " + playerHp);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -30,6 +34,13 @@ public class PlayerStats : MonoBehaviour
         {
             playerHp = playerHp - enemyCollision.enemyDamage;
             Debug.Log("Current: " + playerHp);
+
+            GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
+
         }
+
+        
+
     }
 }
