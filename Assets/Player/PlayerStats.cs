@@ -14,12 +14,13 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        GameObject.DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("Current: " + playerHp);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
