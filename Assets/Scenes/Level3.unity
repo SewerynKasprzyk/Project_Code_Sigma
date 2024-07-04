@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 9817837}
   m_Layer: 0
   m_Name: RoofElements (L1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3554,6 +3554,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemPackage
       objectReference: {fileID: 0}
+    - target: {fileID: 5326345054117377666, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326345054117377666, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326345054117377666, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326345054117377666, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682151613890569687, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682151613890569687, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682151613890569687, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682151613890569687, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818637600375625285, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818637600375625285, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818637600375625285, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818637600375625285, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7156210665399187760, guid: 9742a97e66b20d841a3eb5061b663ba9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3615,7 +3663,7 @@ GameObject:
   - component: {fileID: 388358471}
   m_Layer: 0
   m_Name: Floor/Walls (L0)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10844,7 +10892,7 @@ GameObject:
   - component: {fileID: 1038229598}
   m_Layer: 0
   m_Name: 'FloorObjects (L3) '
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11832,7 +11880,7 @@ GameObject:
   - component: {fileID: 1501049386}
   m_Layer: 0
   m_Name: 'FloorElements (L2) '
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

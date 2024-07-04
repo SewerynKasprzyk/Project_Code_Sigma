@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class PlayerStats : MonoBehaviour
     public float attackDamage;
     public float attackSpeed;
     public float attackRange;
+
+    public GameObject popUpPrefab;
 
     public Rigidbody2D player;
 
@@ -32,6 +36,13 @@ public class PlayerStats : MonoBehaviour
         {
             playerHp = playerHp - enemyCollision.enemyDamage;
             Debug.Log("Current: " + playerHp);
+
+            GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
+
         }
+
+        
+
     }
 }
