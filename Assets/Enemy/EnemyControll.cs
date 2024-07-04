@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyControll : MonoBehaviour
@@ -9,6 +10,7 @@ public class EnemyControll : MonoBehaviour
     public float speed;
     public float distanceBetween; //Dystans po jakim enemy zacznie sie poruszac w strone gracza
     public float randomMoveDuration; //Czas po jakim enemy zmieni kierunek ruchu
+    public float attackAnimationDuration; //Czas trwania animacji ataku na ktora enemy nie moze sie ruszac
 
     private float distance;
     private bool isStunned = false;
@@ -32,6 +34,7 @@ public class EnemyControll : MonoBehaviour
         //Losowe poruszanie sie enemy
         StartCoroutine(IdleAndRandomMovement());
         spriteRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -39,21 +42,26 @@ public class EnemyControll : MonoBehaviour
     {
         if (!isStunned)
         {
-            AIChase();
-
             float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+            if(distanceToPlayer <= enemyStats.enemyVisionRange)
+            {
+                AIChase();
+                // anim.SetBool("isRunning", true);
+            }
+            else
+            {
+                if (!isRandomMoving)
+                {
+                    StartCoroutine(IdleAndRandomMovement());
+                }                
+            }           
 
             if (distanceToPlayer <= enemyStats.enemyAttackRange)
             {
                 StartAttackAnimation();
-            }
-            else
-            {
-                if(isRandomMoving)
-                {
-                    StartCoroutine(IdleAndRandomMovement());
-                }
-            }
+
+            }            
         }
     }
 
@@ -109,7 +117,6 @@ public class EnemyControll : MonoBehaviour
         else
         {
             anim.SetBool("isWalking", false);
-
         }
        
     }
@@ -215,4 +222,5 @@ public class EnemyControll : MonoBehaviour
             attackCollider.enabled = false;
         }
     }
+    
 }
