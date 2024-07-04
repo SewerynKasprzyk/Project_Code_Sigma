@@ -83,7 +83,6 @@ public class EnemyStats : MonoBehaviour
 
             if (distanceToPlayer <= enemyAttackRange)
             {
-               // attackArea.enabled = true;
                 PlayerStats playerStats = attackArea.GetComponent<PlayerStats>();
                 {
                     playerStats.TakeDamage(enemyWeaponDamage);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyControll : MonoBehaviour
@@ -9,6 +10,7 @@ public class EnemyControll : MonoBehaviour
     public float speed;
     public float distanceBetween; //Dystans po jakim enemy zacznie sie poruszac w strone gracza
     public float randomMoveDuration; //Czas po jakim enemy zmieni kierunek ruchu
+    public float attackAnimationDuration; //Czas trwania animacji ataku na ktora enemy nie moze sie ruszac
 
     private float distance;
     private bool isStunned = false;
@@ -59,6 +61,7 @@ public class EnemyControll : MonoBehaviour
             if (distanceToPlayer <= enemyStats.enemyAttackRange)
             {
                 StartAttackAnimation();
+
             }            
         }
     }
@@ -220,4 +223,5 @@ public class EnemyControll : MonoBehaviour
             attackCollider.enabled = false;
         }
     }
+    
 }
