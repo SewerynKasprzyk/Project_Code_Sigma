@@ -126,7 +126,11 @@ public class EnemyControll : MonoBehaviour
     private void EndAttack()
     {
         anim.SetBool("isAttacking", false);
+    }
 
+    private void EndRunning()
+    {
+        anim.SetBool("isRunning", false);
     }
 
     private void StartAttackAnimation()
