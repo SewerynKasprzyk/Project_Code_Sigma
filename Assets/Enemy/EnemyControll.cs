@@ -55,8 +55,7 @@ public class EnemyControll : MonoBehaviour
                 {
                     StartCoroutine(IdleAndRandomMovement());
                 }                
-            }
-           
+            }           
 
             if (distanceToPlayer <= enemyStats.enemyAttackRange)
             {
