@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 {
@@ -17,13 +18,32 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField]
     private bool randomWalkRooms = false;
 
+    private DungeonData dungeonData;
+
+    public UnityEvent OnFinishedRoomGeneration;
+
+
     override protected void RunProceduralGeneration()
     {
+        dungeonData = FindAnyObjectByType<DungeonData>();
+        if (dungeonData == null)
+        {
+            dungeonData = new GameObject("DungeonData").AddComponent<DungeonData>();
+        }
+        else
+        {
+
+           dungeonData.Reset();
+        }
+
         CreateRooms();
+
+        OnFinishedRoomGeneration.Invoke();
     }
 
     private void CreateRooms()
     {
+
         var roomList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
 
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
@@ -44,6 +64,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
+        dungeonData.Path = corridors;
+
         floorPositions.UnionWith(corridors);
 
 
@@ -68,8 +90,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                     floorPositions.Add(position);
                 }
             }
+
+            Room room1 = new Room(roomCenter, floorPositions);
+            dungeonData.Rooms.Add(room1);
         }
 
+        Debug.Log("Rooms created: " + dungeonData.Rooms.Count);
         return floorPositions;
     }
 
@@ -157,8 +183,14 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                     floorPositions.Add(position);
                 }
             }
+
+            Vector2Int roomCenter = new Vector2Int(Mathf.RoundToInt(room.center.x), Mathf.RoundToInt(room.center.y));
+
+            Room room1 = new Room(roomCenter, floorPositions);
+            dungeonData.Rooms.Add(room1);
         }
 
+        Debug.Log("Rooms created: " + dungeonData.Rooms.Count);
         return floorPositions;
     }
 }
