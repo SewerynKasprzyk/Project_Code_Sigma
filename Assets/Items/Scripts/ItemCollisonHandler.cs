@@ -17,7 +17,7 @@ public class ItemCollisonHandler : MonoBehaviour
 
     private void Start()
     {
-        HidePickUpDialog();
+       //HidePickUpDialog();
     }
 
     private void Update()

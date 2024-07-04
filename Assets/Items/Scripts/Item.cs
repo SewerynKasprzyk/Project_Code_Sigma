@@ -11,13 +11,14 @@ public class Item : MonoBehaviour
     [SerializeField] private string itemDescription;
     [SerializeField] private Sprite itemSprite;
     [SerializeField] private string itemType;
+    [SerializeField] private int tier;
     private InventoryManager inventoryManager;
-    private ItemCollisonHandler itemCollisonHandler;
+    //private ItemCollisonHandler itemCollisonHandler;
 
     private void Start()
     {
         inventoryManager = GameObject.Find("InventoryWeaponsCanvas").GetComponent<InventoryManager>();
-        itemCollisonHandler = GameObject.Find("ItemPIckUpCanvas").GetComponent<ItemCollisonHandler>();
+        //itemCollisonHandler = GameObject.Find("ItemPIckUpCanvas").GetComponent<ItemCollisonHandler>();
         GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
@@ -31,8 +32,8 @@ public class Item : MonoBehaviour
                 Destroy(gameObject);
 
             }
-            else
-            itemCollisonHandler.ShowPickUpDialog(this);
+            //else
+            //itemCollisonHandler.ShowPickUpDialog(this);
         }
 
     }
@@ -41,7 +42,7 @@ public class Item : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            itemCollisonHandler.HidePickUpDialog();
+            //itemCollisonHandler.HidePickUpDialog();
         }
     }
 

@@ -17,7 +17,42 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.anyKeyDown)
+        {
+            KeyCode key = KeyCode.None;
+            if (Input.GetKeyDown(KeyCode.Alpha1)) key = KeyCode.Alpha1;
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) key = KeyCode.Alpha2;
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) key = KeyCode.Alpha3;
 
+            switch (key)
+            {
+                case KeyCode.Alpha1:
+                    ActivateSlot(0);
+                    Debug.Log("Pressed 1");
+                    break;
+                case KeyCode.Alpha2:
+                    ActivateSlot(1);
+                    Debug.Log("Pressed 2");
+                    break;
+                case KeyCode.Alpha3:
+                    ActivateSlot(2);
+                    Debug.Log("Pressed 3");
+                    break;
+                default:
+                    // Opcjonalnie: obs³uga innych klawiszy lub brak akcji
+                    break;
+            }
+        }
+    }
+
+    public void ActivateSlot(int index)
+    {
+        if (index >= 0 && index < itemSlot.Length)
+        {
+            DeselectAllItems(); // Odznacz wszystkie sloty
+            itemSlot[index].SelectedShader.SetActive(true); // Aktywuj shader dla wybranego slotu
+            itemSlot[index].thisItemSelected = true; // Oznacz slot jako wybrany
+        }
     }
 
     public void AddItem(string itemName, Sprite itemSprite)
@@ -54,7 +89,12 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
-
-
- 
+    public void DeselectAllItems()
+    {
+        for(int i = 0; i < itemSlot.Length; i++)
+        {
+            itemSlot[i].SelectedShader.SetActive(false);
+            itemSlot[i].thisItemSelected = false;
+        }
+    }
 }
