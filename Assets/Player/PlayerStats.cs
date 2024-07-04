@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour
         playerHp -= damage;
         Debug.Log("Current: " + playerHp);
 
-        // Tworzenie popupu z obra¿eniami
+        // Tworzenie popupu z obraï¿½eniami
         GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
         popUp.GetComponentInChildren<TMP_Text>().text = damage.ToString();
 
@@ -55,18 +55,16 @@ public class PlayerStats : MonoBehaviour
         EnemyStats enemyCollision = collision.gameObject.GetComponent<EnemyStats>();
         if (enemyCollision != null)
         {
-            // Odejmowanie zwyk³ych obra¿eñ
+            // Odejmowanie zwykï¿½ych obraï¿½eï¿½
             TakeDamage(enemyCollision.enemyDamage);
 
-            // Sprawdzenie, czy up³yn¹³ wystarczaj¹cy czas od ostatniego otrzymania obra¿eñ od broni
+            // Sprawdzenie, czy upï¿½ynï¿½ï¿½ wystarczajï¿½cy czas od ostatniego otrzymania obraï¿½eï¿½ od broni
             if (Time.time - lastDamageTime > damageCooldown)
             {
-                // Odejmowanie obra¿eñ od broni
-                TakeDamage(enemyCollision.enemyWeaponDamage);
-
-                // Aktualizacja czasu ostatniego otrzymania obra¿eñ
-                lastDamageTime = Time.time;
+                popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
             }
+            
+            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyWeaponDamage.ToString();
         }
     }
 

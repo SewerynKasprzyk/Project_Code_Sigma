@@ -7,11 +7,13 @@ public class EnemyStats : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    //Po smierci enemy przez cialo ma sie dac przenikac
+
     public float enemyHp;
     public float enemyDamage;
     public float enemyWeaponDamage;
     public float stunDuration = 0.2f;
-    public float enemyAttackRange = 1.5f;
+    public float enemyAttackRange = 1f;
 
     private Animator anim;
     private Rigidbody2D enemy;
