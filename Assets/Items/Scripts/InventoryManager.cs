@@ -6,7 +6,11 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public GameObject inventoryPanel;
+    public GameObject utilityPanel;
     public ItemSlot[] itemSlot;
+    public UtilitySlot[] utilitySlot;
+
+    public ItemSO[] itemSOs;
 
     // Start is called before the first frame update
     void Start()
@@ -55,27 +59,55 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddItem(string itemName, Sprite itemSprite)
+    public void UseItem(string itemName)
     {
-        Debug.Log("Added " + itemName + " to inventory");
-
-        for (int i = 0; i < itemSlot.Length; i++)
+        for (int i = 0; i < itemSOs.Length; i++)
         {
-            if (itemSlot[i].isFull == false)
+            if (itemSOs[i].itemName == itemName)
             {
-                itemSlot[i].AddItem(itemName, itemSprite);
+                itemSOs[i].UseItem();
                 return;
+            }
+        }   
+    }
+
+    public void AddItem(string itemName, Sprite itemSprite, ItemType itemType)
+    {
+        if (itemType == ItemType.Weapon)
+        {
+            Debug.Log("Added " + itemName + " to inventory");
+
+            for (int i = 0; i < itemSlot.Length; i++)
+            {
+                if (itemSlot[i].isFull == false)
+                {
+                    itemSlot[i].AddItem(itemName, itemSprite, itemType);
+                    return;
+                }
+            }
+        }
+        else 
+        {
+            Debug.Log("Added " + itemName + " to inventory");
+
+            for (int i = 0; i < itemSlot.Length; i++)
+            {
+                if (utilitySlot[i].isFull == false)
+                {
+                    utilitySlot[i].AddItem(itemName, itemSprite, itemType);
+                    return;
+                }
             }
         }
     }
 
-    public void ReplaceItem(int slotIndex, Item item)
+/*    public void ReplaceItem(int slotIndex, Item item)
     {
 
         itemSlot[slotIndex].AddItem(item.GetItemName(), item.GetItemSprite());
         itemSlot[slotIndex].isFull = true;
         Debug.Log("Replaced item in slot " + slotIndex);
-    }
+    }*/
 
     public bool IsInventoryFull()
     {
@@ -88,7 +120,6 @@ public class InventoryManager : MonoBehaviour
         }
         return true;
     }
-
     public void DeselectAllItems()
     {
         for(int i = 0; i < itemSlot.Length; i++)
@@ -96,5 +127,17 @@ public class InventoryManager : MonoBehaviour
             itemSlot[i].SelectedShader.SetActive(false);
             itemSlot[i].thisItemSelected = false;
         }
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            utilitySlot[i].SelectedShader.SetActive(false);
+            utilitySlot[i].thisItemSelected = false;
+        }
     }
 }
+
+public enum ItemType
+{
+    None,
+    Consumable,
+    Weapon,
+};

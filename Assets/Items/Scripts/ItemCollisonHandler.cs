@@ -35,7 +35,7 @@ public class ItemCollisonHandler : MonoBehaviour
         if(!actionPerformed && isPressedE)
         {
             Debug.Log("Przesz³o");
-            IventoryManager.ReplaceItem(0, currentItem);
+            //IventoryManager.ReplaceItem(0, currentItem);
             Debug.Log("Zmiana");
             Destroy(currentItem.gameObject);
             actionPerformed = true;

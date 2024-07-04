@@ -8,7 +8,9 @@ public class PlayerStats : MonoBehaviour
 
     public float playerHp;
     public float playerMovementSpeed;
-    public float playerDamage;
+    public float attackDamage;
+    public float attackSpeed;
+    public float attackRange;
 
     public Rigidbody2D player;
 
