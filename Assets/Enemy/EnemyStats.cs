@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,8 +10,8 @@ public class EnemyStats : MonoBehaviour
 
     //Po smierci enemy przez cialo ma sie dac przenikac
 
-    public float enemyHp;
-    public float enemyMaxHp; // do testow
+    [SerializeField] float enemyHp;
+    [SerializeField] float enemyMaxHp; 
     public float enemyDamage;
     public float enemyWeaponDamage;
     public float stunDuration = 0.2f;
@@ -21,8 +22,7 @@ public class EnemyStats : MonoBehaviour
     private Rigidbody2D enemy;
     private EnemyControll enemyControll;
 
-    [SerializeField] EnemyHealthBar enemyHealthBar;
-
+    [SerializeField] private EnemyHealthBar enemyHealthBar;
 
     void Start()
     {
@@ -30,8 +30,15 @@ public class EnemyStats : MonoBehaviour
         enemy = GetComponent<Rigidbody2D>();
         enemyControll = GetComponent<EnemyControll>();
 
-        enemyMaxHp = enemyHp;
         enemyHealthBar = GetComponent<EnemyHealthBar>();
+        enemyMaxHp = enemyHp;
+        Debug.Log("Enemy max HP: " + enemyMaxHp);
+
+        enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
+        if (enemyHealthBar == null)
+        {
+            Debug.LogError("Nie znaleziono komponentu EnemyHealthBar w prefabie.");
+        }
 
         if (enemy == null)
         {
@@ -43,16 +50,30 @@ public class EnemyStats : MonoBehaviour
         }
     }
 
+    public void SetHealthBar(EnemyHealthBar healthBar)
+    {
+        enemyHealthBar = healthBar;
+    }
+
     // Update is called once per frame
     void Update()
     {
-
+        //enemyHealthBar.UpdateHealthBar(enemyHp, enemyMaxHp);
+        //Debug.Log("Enemy HP: " + enemyHp);
     }
+
     public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackForce)
     {
         enemyHp -= damage;
 
-        enemyHealthBar.UpdateHealthBar(enemyHp, enemyMaxHp);
+        try
+        {
+            enemyHealthBar.UpdateHealthBar(enemyHp, enemyMaxHp);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Wyj¹tek podczas aktualizacji paska zdrowia: " + ex.ToString());
+        }
 
         if (enemyHp <= 0)
         {

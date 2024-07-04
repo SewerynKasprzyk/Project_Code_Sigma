@@ -38,7 +38,7 @@ public class PlayerStats : MonoBehaviour
         if (damage <= 0) return;
 
         playerHp -= damage;
-        Debug.Log("Current: " + playerHp);
+        //Debug.Log("Current: " + playerHp);
 
         // Tworzenie popupu z obra�eniami
         GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
