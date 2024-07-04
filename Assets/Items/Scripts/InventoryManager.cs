@@ -29,20 +29,35 @@ public class InventoryManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1)) key = KeyCode.Alpha1;
             else if (Input.GetKeyDown(KeyCode.Alpha2)) key = KeyCode.Alpha2;
             else if (Input.GetKeyDown(KeyCode.Alpha3)) key = KeyCode.Alpha3;
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) key = KeyCode.Alpha4;
+            else if (Input.GetKeyDown(KeyCode.Alpha5)) key = KeyCode.Alpha5;
+            else if (Input.GetKeyDown(KeyCode.Alpha6)) key = KeyCode.Alpha6;
 
             switch (key)
             {
                 case KeyCode.Alpha1:
                     Debug.Log("Pressed 1");
-                    ActivateSlot(0);
+                    ActivateWeaponSlot(0);
                     break;
                 case KeyCode.Alpha2:
                     Debug.Log("Pressed 2");
-                    ActivateSlot(1);
+                    ActivateWeaponSlot(1);
                     break;
                 case KeyCode.Alpha3:
                     Debug.Log("Pressed 3");
-                    ActivateSlot(2);
+                    ActivateWeaponSlot(2);
+                    break;
+                case KeyCode.Alpha4:
+                    Debug.Log("Pressed 4");
+                    ActivateUtilitySlot(0);
+                    break;
+                case KeyCode.Alpha5:
+                    Debug.Log("Pressed 5");
+                    ActivateUtilitySlot(1);
+                    break;
+                case KeyCode.Alpha6:
+                    Debug.Log("Pressed 6");
+                    ActivateUtilitySlot(2);
                     break;
                 default:
                     // Opcjonalnie: obs³uga innych klawiszy lub brak akcji
@@ -51,11 +66,11 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void ActivateSlot(int index)
+    public void ActivateWeaponSlot(int index)
     {
         if (index >= 0 && index < itemSlot.Length)
         {
-            DeselectAllItems(); // Odznacz wszystkie sloty
+            DeselectAllWeaponSlots(); // Odznacz wszystkie sloty
 
             for (int i = 0; i < itemSlot.Length; i++)
             {
@@ -80,6 +95,18 @@ public class InventoryManager : MonoBehaviour
             itemSlot[index].SelectedShader.SetActive(true); // Aktywuj shader dla wybranego slotu
             itemSlot[index].thisItemSelected = true; // Oznacz slot jako wybrany
             lastThisItemSelected = index; // Zapamiêtaj ostatni wybrany slot
+        }
+    }
+
+    public void ActivateUtilitySlot(int index)
+    {
+        if (index >= 0 && index < utilitySlot.Length)
+        {
+            DeselectAllUtilitySlots(); // Odznacz wszystkie sloty
+
+            utilitySlot[index].SelectedShader.SetActive(true); // Aktywuj shader dla wybranego slotu
+            utilitySlot[index].thisItemSelected = true; // Oznacz slot jako wybrany
+            
         }
     }
 
@@ -144,12 +171,21 @@ public class InventoryManager : MonoBehaviour
         }
         return true;
     }
-    public void DeselectAllItems()
+    public void DeselectAllWeaponSlots()
     {
         for (int i = 0; i < itemSlot.Length; i++)
         {
             itemSlot[i].SelectedShader.SetActive(false);
             itemSlot[i].thisItemSelected = false;
+        }
+    }
+
+    public void DeselectAllUtilitySlots()
+    {
+        for (int i = 0; i < utilitySlot.Length; i++)
+        {
+            utilitySlot[i].SelectedShader.SetActive(false);
+            utilitySlot[i].thisItemSelected = false;
         }
     }
 }
