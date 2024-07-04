@@ -32,6 +32,7 @@ public class EnemyControll : MonoBehaviour
         //Losowe poruszanie sie enemy
         StartCoroutine(IdleAndRandomMovement());
         spriteRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -39,21 +40,26 @@ public class EnemyControll : MonoBehaviour
     {
         if (!isStunned)
         {
-            AIChase();
-
             float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+            if(distanceToPlayer <= enemyStats.enemyVisionRange)
+            {
+                AIChase();
+                // anim.SetBool("isRunning", true);
+            }
+            else
+            {
+                if (!isRandomMoving)
+                {
+                    StartCoroutine(IdleAndRandomMovement());
+                }                
+            }
+           
 
             if (distanceToPlayer <= enemyStats.enemyAttackRange)
             {
                 StartAttackAnimation();
-            }
-            else
-            {
-                if(isRandomMoving)
-                {
-                    StartCoroutine(IdleAndRandomMovement());
-                }
-            }
+            }            
         }
     }
 
@@ -109,7 +115,6 @@ public class EnemyControll : MonoBehaviour
         else
         {
             anim.SetBool("isWalking", false);
-
         }
        
     }

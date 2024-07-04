@@ -14,6 +14,7 @@ public class EnemyStats : MonoBehaviour
     public float enemyWeaponDamage;
     public float stunDuration = 0.2f;
     public float enemyAttackRange = 1f;
+    public float enemyVisionRange = 5f;
 
     private Animator anim;
     private Rigidbody2D enemy;
@@ -82,11 +83,13 @@ public class EnemyStats : MonoBehaviour
 
             if (distanceToPlayer <= enemyAttackRange)
             {
+               // attackArea.enabled = true;
                 PlayerStats playerStats = attackArea.GetComponent<PlayerStats>();
                 {
-                    playerStats.playerHp -= enemyWeaponDamage;
+                    playerStats.TakeDamage(enemyWeaponDamage);
                 }
             }
+            
         }
     }
 
