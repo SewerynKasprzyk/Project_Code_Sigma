@@ -9,55 +9,30 @@ public class ItemSO : ScriptableObject
     public StatToChange statToChange = new();
     public int amountToChangeStat;
 
-    public AttributeToChange attributeToChange = new();
-    public int amountToChangeAttribute;
-
     public void UseItem()
     {
         if(statToChange == StatToChange.Health)
         { 
-            //GameObject.Find("HealthManager").GetComponent<PlayerHealth>().ChangeHealth(amountToChangeStat);
+            PlayerStats playerStats = GameObject.Find("PlayerJG").GetComponent<PlayerStats>();
+            playerStats.playerHp += amountToChangeStat;
+        }
+        else if(statToChange == StatToChange.Attack)
+        {
+            PlayerStats playerStats = GameObject.Find("PlayerJG").GetComponent<PlayerStats>();
+            playerStats.attackDamage += amountToChangeStat;
+        }
+        else if(statToChange == StatToChange.Speed)
+        {
+            PlayerStats playerStats = GameObject.Find("PlayerJG").GetComponent<PlayerStats>();
+            playerStats.playerMovementSpeed += amountToChangeStat;
         }
     }
-
-
-
 
     public enum StatToChange
     {
         None,
         Health,
         Attack,
-        Defense,
         Speed
     }
-
-    public enum ItemType
-    {
-        None,
-        Consumable,
-        Weapon,
-        Armor,
-        Accessory
-    }
-
-    public enum ItemTier
-    {
-        None,
-        Common,
-        Uncommon,
-        Rare,
-        Epic,
-        Legendary
-    }
-
-    public enum AttributeToChange
-    {
-        None,
-        Health,
-        Attack,
-        Defense,
-        Speed
-    }
-
 }

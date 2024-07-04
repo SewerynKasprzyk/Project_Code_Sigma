@@ -19,13 +19,11 @@ public class ItemSlot : MonoBehaviour
     public bool thisItemSelected;
     public int slotIndex;
 
-    private InventoryManager inventoryManager;
-    private WeaponSOLib weaponSOLib;
+    //private InventoryManager inventoryManager;
 
     private void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
-        //weaponSOLib = GameObject.Find("InventoryCanvas").GetComponent<WeaponSOLib>();
+        //inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
     }
     public void AddItem(string itemName, Sprite itemSprite, ItemType itemType)
     {
@@ -33,22 +31,8 @@ public class ItemSlot : MonoBehaviour
         this.itemName = itemName;
         this.itemSprite = itemSprite;
         itemImage.sprite = itemSprite;
-        isFull = true;
-/*        Debug.Log("itemslot");
-
-        for (int i = 0; i < weaponSOLib.weaponSO.Length; i++)
-        {
-            Debug.Log("Checking " + weaponSOLib.weaponSO[i].itemName);
-            if (weaponSOLib.weaponSO[i].itemName == this.itemName)
-            {
-                Debug.Log("found " + weaponSOLib.weaponSO[i].itemName);
-                weaponSOLib.weaponSO[i].EquipItem();
-            }
-        }*/
-        
-    }
-
-    
+        isFull = true;    
+    }   
 }
 
  

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponSOLib : MonoBehaviour
+public class UtilitySOLib : MonoBehaviour
 {
-    public WeaponSO[] weaponSOs;
+    public ItemSO[] itemSOs;
 }

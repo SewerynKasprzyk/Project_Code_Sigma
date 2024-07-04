@@ -11,13 +11,16 @@ public class InventoryManager : MonoBehaviour
     public ItemSlot[] itemSlot;
     public UtilitySlot[] utilitySlot;
 
-    private int lastThisItemSelected = -1;
+    private int lastThisWeaponSlotSelected = -1;
+    private int lastThisUtlilitySlotSelected = -1;
     private WeaponSOLib weaponSOLib;
+    private UtilitySOLib utilitySOLib;
 
     // Start is called before the first frame update
     void Start()
     {
         weaponSOLib = GameObject.Find("InventoryCanvas").GetComponent<WeaponSOLib>();
+        utilitySOLib = GameObject.Find("InventoryCanvas").GetComponent<UtilitySOLib>();
     }
 
     // Update is called once per frame
@@ -74,27 +77,27 @@ public class InventoryManager : MonoBehaviour
 
             for (int i = 0; i < itemSlot.Length; i++)
             {
-                for (int j = 0; j < weaponSOLib.weaponSO.Length; j++)
+                for (int j = 0; j < weaponSOLib.weaponSOs.Length; j++)
                 {
-                    if (weaponSOLib.weaponSO[j].itemName == itemSlot[i].itemName && i == lastThisItemSelected)
-                        weaponSOLib.weaponSO[j].UnequipItem();
+                    if (weaponSOLib.weaponSOs[j].itemName == itemSlot[i].itemName && i == lastThisWeaponSlotSelected)
+                        weaponSOLib.weaponSOs[j].UnequipItem();
                 }
             }
 
-            for (int i = 0; i < weaponSOLib.weaponSO.Length; i++)
+            for (int i = 0; i < weaponSOLib.weaponSOs.Length; i++)
             {
                 //Debug.Log("Checking " + weaponSOLib.weaponSO[i].itemName);
-                if (weaponSOLib.weaponSO[i].itemName == itemSlot[index].itemName)
+                if (weaponSOLib.weaponSOs[i].itemName == itemSlot[index].itemName)
                 {
                     //Debug.Log("found " + weaponSOLib.weaponSO[i].itemName);
-                    weaponSOLib.weaponSO[i].EquipItem();
-                    Debug.Log("ubrano " + weaponSOLib.weaponSO[i].itemName);
+                    weaponSOLib.weaponSOs[i].EquipItem();
+                    Debug.Log("ubrano " + weaponSOLib.weaponSOs[i].itemName);
                 }
             }
 
             itemSlot[index].SelectedShader.SetActive(true); // Aktywuj shader dla wybranego slotu
             itemSlot[index].thisItemSelected = true; // Oznacz slot jako wybrany
-            lastThisItemSelected = index; // Zapamiêtaj ostatni wybrany slot
+            lastThisWeaponSlotSelected = index; // Zapamiêtaj ostatni wybrany slot
         }
     }
 
@@ -106,21 +109,38 @@ public class InventoryManager : MonoBehaviour
 
             utilitySlot[index].SelectedShader.SetActive(true); // Aktywuj shader dla wybranego slotu
             utilitySlot[index].thisItemSelected = true; // Oznacz slot jako wybrany
-            
+
+
+            if (lastThisUtlilitySlotSelected != index)
+            {
+                Debug.Log("Nie u¿yto" + utilitySlot[index].itemName);
+            }
+            else
+            {
+                for (int i = 0; i < utilitySOLib.itemSOs.Length; i++)
+                {
+                    Debug.Log("Sprwadzam " + utilitySOLib.itemSOs[i].itemName);
+                    if (utilitySOLib.itemSOs[i].itemName == utilitySlot[index].itemName)
+                    {
+                        Debug.Log("Znalaz³em " + utilitySOLib.itemSOs[i].itemName);
+                        utilitySOLib.itemSOs[i].UseItem();
+                        Debug.Log("U¿yto" + utilitySlot[index].itemName);
+                        ClearUtilitySlot(index);
+                    }
+                }
+            }
+            lastThisUtlilitySlotSelected = index; // Zapamiêtaj ostatni wybrany slot
         }
     }
 
-/*    public void UseItem(string itemName)
+    private void ClearUtilitySlot(int index)
     {
-        for (int i = 0; i < itemSOs.Length; i++)
+        if (index >= 0 && index < utilitySlot.Length)
         {
-            if (itemSOs[i].itemName == itemName)
-            {
-                itemSOs[i].UseItem();
-                return;
-            }
-        }   
-    }*/
+            utilitySlot[index].thisItemSelected = false;
+            utilitySlot[index].ClearSlot();
+        }
+    }
 
     public void AddItem(string itemName, Sprite itemSprite, ItemType itemType)
     {
@@ -152,7 +172,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-/*    public void ReplaceItem(int slotIndex, Item item)
+  /*public void ReplaceItem(int slotIndex, Item item)
     {
 
         itemSlot[slotIndex].AddItem(item.GetItemName(), item.GetItemSprite());

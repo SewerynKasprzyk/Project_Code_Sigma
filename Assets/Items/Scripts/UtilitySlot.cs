@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,16 @@ public class UtilitySlot : MonoBehaviour
         this.itemSprite = itemSprite;
         itemImage.sprite = itemSprite;
         isFull = true;
+    }
+
+    public void ClearSlot()
+    {
+        itemName = ""; // Usuñ nazwê przedmiotu
+        itemSprite = null; // Usuñ sprite przedmiotu
+        isFull = false; // Oznacz slot jako pusty
+        itemImage.sprite = null;
+        isFull = false;
+        SelectedShader.SetActive(false);
     }
 }
 
