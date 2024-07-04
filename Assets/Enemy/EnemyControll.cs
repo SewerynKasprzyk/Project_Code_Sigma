@@ -127,20 +127,11 @@ public class EnemyControll : MonoBehaviour
     {
         anim.SetBool("isAttacking", false);
 
-        //if (attackCollider != null)
-        //{
-        //    attackCollider.enabled = false;
-        //}
     }
 
     private void StartAttackAnimation()
     {
         anim.SetBool("isAttacking", true);
-
-        //if (attackCollider != null)
-        //{
-        //    attackCollider.enabled = true;
-        //}
     }
 
     private void StartAtackHitbox()
