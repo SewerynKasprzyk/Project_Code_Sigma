@@ -10,6 +10,7 @@ public class EnemyStats : MonoBehaviour
     //Po smierci enemy przez cialo ma sie dac przenikac
 
     public float enemyHp;
+    public float enemyMaxHp; // do testow
     public float enemyDamage;
     public float enemyWeaponDamage;
     public float stunDuration = 0.2f;
@@ -19,12 +20,17 @@ public class EnemyStats : MonoBehaviour
     private Rigidbody2D enemy;
     private EnemyControll enemyControll;
 
+    [SerializeField] EnemyHealthBar enemyHealthBar;
+
 
     void Start()
     {
         anim = GetComponent<Animator>();
         enemy = GetComponent<Rigidbody2D>();
         enemyControll = GetComponent<EnemyControll>();
+
+        enemyMaxHp = enemyHp;
+        enemyHealthBar = GetComponent<EnemyHealthBar>();
 
         if (enemy == null)
         {
@@ -44,6 +50,8 @@ public class EnemyStats : MonoBehaviour
     public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackForce)
     {
         enemyHp -= damage;
+
+        enemyHealthBar.UpdateHealthBar(enemyHp, enemyMaxHp);
 
         if (enemyHp <= 0)
         {
