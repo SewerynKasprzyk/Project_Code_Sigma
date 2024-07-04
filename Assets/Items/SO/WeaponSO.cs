@@ -12,7 +12,7 @@ public class WeaponSO : ScriptableObject
 
     public void EquipItem()
     {
-        Debug.Log("Equipping item");
+        //Debug.Log("Equipping item");
         PlayerStats playerStats = GameObject.Find("PlayerJG").GetComponent<PlayerStats>();
         playerStats.attackDamage += attackDamage;
         playerStats.attackSpeed += attackSpeed;

@@ -25,7 +25,7 @@ public class ItemSlot : MonoBehaviour
     private void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
-        weaponSOLib = GameObject.Find("InventoryCanvas").GetComponent<WeaponSOLib>();
+        //weaponSOLib = GameObject.Find("InventoryCanvas").GetComponent<WeaponSOLib>();
     }
     public void AddItem(string itemName, Sprite itemSprite, ItemType itemType)
     {
@@ -34,7 +34,7 @@ public class ItemSlot : MonoBehaviour
         this.itemSprite = itemSprite;
         itemImage.sprite = itemSprite;
         isFull = true;
-        Debug.Log("itemslot");
+/*        Debug.Log("itemslot");
 
         for (int i = 0; i < weaponSOLib.weaponSO.Length; i++)
         {
@@ -44,7 +44,7 @@ public class ItemSlot : MonoBehaviour
                 Debug.Log("found " + weaponSOLib.weaponSO[i].itemName);
                 weaponSOLib.weaponSO[i].EquipItem();
             }
-        }
+        }*/
         
     }
 
