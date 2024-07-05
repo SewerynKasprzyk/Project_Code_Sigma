@@ -21464,7 +21464,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2948034257863293218, guid: c4d325643dc350541aa3a641d747750b, type: 3}
       propertyPath: m_text
-      value: Next try to kill this slime
+      value: Now try to kill this slime
       objectReference: {fileID: 0}
     - target: {fileID: 5145701021304023041, guid: c4d325643dc350541aa3a641d747750b, type: 3}
       propertyPath: m_Name
