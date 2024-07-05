@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Player HP: " + playerStats.playerHp);
+        //Debug.Log("Player HP: " + playerStats.playerHp);
         if (playerStats != null)
         {
             // Update your UI elements based on the current playerStats values

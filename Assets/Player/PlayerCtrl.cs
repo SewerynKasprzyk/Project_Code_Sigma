@@ -27,9 +27,6 @@ public class PlayerCtrl : MonoBehaviour
     private float attackEndTime;
 
 
-    //dodac po tagu sciane i w razie kolizji ze scnia col enable = true
-    //animacja atkaowania dopiero po skonczeniu animacji chodzniea
-
     // Start is called before the first frame update
     void Start()
     {

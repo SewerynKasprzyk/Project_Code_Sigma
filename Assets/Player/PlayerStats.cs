@@ -10,15 +10,23 @@ public class PlayerStats : MonoBehaviour
 
     public float playerHp;
     public float playerMovementSpeed;
-    public float playerDamage;
+    public float attackDamage;
+    public float attackSpeed;
+    public float attackRange;
 
     public GameObject popUpPrefab;
 
     public Rigidbody2D player;
 
+    private PlayerCtrl playerCtrl;
+
+    private float lastDamageTime = -1;
+    public float damageCooldown = 1.0f;
+
     void Start()
     {
         GameObject.DontDestroyOnLoad(this.gameObject);
+        playerCtrl = GetComponent<PlayerCtrl>();
     }
 
     // Update is called once per frame
@@ -27,20 +35,34 @@ public class PlayerStats : MonoBehaviour
         //Debug.Log("Current: " + playerHp);
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (damage <= 0) return;
+
+        playerHp -= damage;
+        //Debug.Log("Current: " + playerHp);
+
+        // Tworzenie popupu z obra�eniami
+        GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+        popUp.GetComponentInChildren<TMP_Text>().text = damage.ToString();
+
+        if (playerHp <= 0)
+        {
+            playerCtrl.DeathAnimation();
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyStats enemyCollision = collision.gameObject.GetComponent<EnemyStats>();
-        if(enemyCollision != null)
+        if (enemyCollision != null)
         {
-            playerHp = playerHp - enemyCollision.enemyDamage;
-            Debug.Log("Current: " + playerHp);
-
-            GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
-            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
-
+            // Odejmowanie zwyk�ych obra�e�
+            TakeDamage(enemyCollision.enemyDamage);
+            //GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+            //popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
         }
-
-        
-
     }
+
+
 }
