@@ -10,14 +10,14 @@ public class Item : MonoBehaviour
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
     [SerializeField] private Sprite itemSprite;
-    [SerializeField] private string itemType;
-    private InventoryManager inventoryManager;
-    private ItemCollisonHandler itemCollisonHandler;
+    public ItemType itemType;
+    [SerializeField] private int tier;
+    private InventoryManager InventoryManager;
 
     private void Start()
     {
-        inventoryManager = GameObject.Find("InventoryWeaponsCanvas").GetComponent<InventoryManager>();
-        itemCollisonHandler = GameObject.Find("ItemPIckUpCanvas").GetComponent<ItemCollisonHandler>();
+        InventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        //itemCollisonHandler = GameObject.Find("ItemPIckUpCanvas").GetComponent<ItemCollisonHandler>();
         GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
@@ -25,14 +25,14 @@ public class Item : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if(!inventoryManager.IsInventoryFull())
+            if(!InventoryManager.IsInventoryFull())
             {
-                inventoryManager.AddItem(itemName, itemSprite);
+                InventoryManager.AddItem(itemName, itemSprite, itemType);
                 Destroy(gameObject);
 
             }
-            else
-            itemCollisonHandler.ShowPickUpDialog(this);
+            //else
+            //itemCollisonHandler.ShowPickUpDialog(this);
         }
 
     }
@@ -41,7 +41,7 @@ public class Item : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            itemCollisonHandler.HidePickUpDialog();
+            //itemCollisonHandler.HidePickUpDialog();
         }
     }
 
