@@ -12,6 +12,10 @@ public class Prop : ScriptableObject
     /// </summary>
     public Vector2Int PropSize = Vector2Int.one;
 
+    [Space, Header("Extras")]
+    [Range(0f, 1f)]
+    public float LightEmission = 0.0f;
+
     [Space, Header("Placement type:")]
     public bool Corner = true;
     public bool NearWallUP = true;

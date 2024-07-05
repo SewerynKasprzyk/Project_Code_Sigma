@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ab2d6f691aa124396de719d6091796, type: 3}
+  m_Name: Torch
+  m_EditorClassIdentifier: 
+  PropSprite: {fileID: -1098226749, guid: 8490798b2e566f147886cd13e4e98b1b, type: 3}
+  PropSize: {x: 1, y: 0}
+  LightEmission: 0.701
+  Corner: 0
+  NearWallUP: 1
+  NearWallDown: 0
+  NearWallRight: 0
+  NearWallLeft: 0
+  Inner: 0
+  PlacementQuantityMin: 1
+  PlacementQuantityMax: 1
+  PlaceAsGroup: 0
+  GroupMinCount: 1
+  GroupMaxCount: 1

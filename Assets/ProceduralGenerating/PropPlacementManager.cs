@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 public class PropPlacementManager : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public class PropPlacementManager : MonoBehaviour
     public void RunEvent()
     {
         OnFinished?.Invoke();
+        OnFinished?.RemoveAllListeners();
     }
 
     private IEnumerator TutorialCoroutine(Action code)
@@ -109,8 +111,8 @@ public class PropPlacementManager : MonoBehaviour
         foreach (Prop propToPlace in wallProps)
         {
             //We want to place only certain quantity of each prop
-            int quantity 
-                = UnityEngine.Random.Range(propToPlace.PlacementQuantityMin, propToPlace.PlacementQuantityMax +1);
+            int quantity
+                = UnityEngine.Random.Range(propToPlace.PlacementQuantityMin, propToPlace.PlacementQuantityMax + 1);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -146,7 +148,7 @@ public class PropPlacementManager : MonoBehaviour
                 continue;
 
             //check if there is enough space around to fit the prop
-            List<Vector2Int> freePositionsAround 
+            List<Vector2Int> freePositionsAround
                 = TryToFitProp(propToPlace, availablePositions, position, placement);
 
             //If we have enough spaces place the prop
@@ -249,14 +251,20 @@ public class PropPlacementManager : MonoBehaviour
     /// <param name="cornerProps"></param>
     private void PlaceCornerProps(Room room, List<Prop> cornerProps)
     {
+        if (cornerProps == null || cornerProps.Count == 0)
+        {
+            return; // No props to place
+        }
+
         float tempChance = cornerPropPlacementChance;
+
+        room.CornerTiles.ExceptWith(dungeonData.Path);
 
         foreach (Vector2Int cornerTile in room.CornerTiles)
         {
             if (UnityEngine.Random.value < tempChance)
             {
-                Prop propToPlace 
-                    = cornerProps[UnityEngine.Random.Range(0, cornerProps.Count)];
+                Prop propToPlace = cornerProps[UnityEngine.Random.Range(0, cornerProps.Count)];
 
                 PlacePropGameObjectAt(room, cornerTile, propToPlace);
                 if (propToPlace.PlaceAsGroup)
@@ -328,25 +336,33 @@ public class PropPlacementManager : MonoBehaviour
         //Instantiat the prop at this positon
         GameObject prop = Instantiate(propPrefab);
         SpriteRenderer propSpriteRenderer = prop.GetComponentInChildren<SpriteRenderer>();
-        
+        Light2D light = prop.GetComponentInChildren<Light2D>();
+
         //set the sprite
         propSpriteRenderer.sprite = propToPlace.PropSprite;
+        light.intensity = propToPlace.LightEmission;
 
         //Add a collider
-        CapsuleCollider2D collider 
+        CapsuleCollider2D collider
             = propSpriteRenderer.gameObject.AddComponent<CapsuleCollider2D>();
         collider.offset = Vector2.zero;
-        if(propToPlace.PropSize.x > propToPlace.PropSize.y)
+        if (propToPlace.PropSize.x > propToPlace.PropSize.y)
         {
             collider.direction = CapsuleDirection2D.Horizontal;
         }
-        Vector2 size 
-            = new Vector2(propToPlace.PropSize.x*0.8f, propToPlace.PropSize.y*0.8f);
+        Vector2 size
+            = new Vector2(propToPlace.PropSize.x * 0.8f, propToPlace.PropSize.y * 0.8f);
         collider.size = size;
 
+        if (light.intensity > 0)
+        {
+            placementPostion.y += 1;
+        }
+
         prop.transform.localPosition = (Vector2)placementPostion;
+
         //adjust the position to the sprite
-        propSpriteRenderer.transform.localPosition 
+        propSpriteRenderer.transform.localPosition
             = (Vector2)propToPlace.PropSize * 0.5f;
 
         //Save the prop in the room data (so in the dunbgeon data)

@@ -71,6 +71,7 @@ public class RoomDataExtractor : MonoBehaviour
     public void RunEvent()
     {
         OnFinishedRoomProcessing?.Invoke();
+        OnFinishedRoomProcessing?.RemoveAllListeners();
     }
 
     private void OnDrawGizmosSelected()
@@ -127,6 +128,12 @@ public class RoomDataExtractor : MonoBehaviour
                     continue;
                 Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
             }
+        }
+
+        foreach (Vector2Int pathPosition in dungeonData.Path)
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawCube(pathPosition + Vector2.one * 0.5f, Vector2.one);
         }
     }
 }
