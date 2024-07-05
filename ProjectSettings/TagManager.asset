@@ -7,15 +7,17 @@ TagManager:
   - Wall
   - Enemy
   - Spawn
+  - Boss
+  - Attack
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacle
   - Water
   - UI
   - PopUpLayer
-  - 
+  - Dung
   - 
   - 
   - 
@@ -43,4 +45,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2270545451
+    locked: 0
+  - name: Dung
+    uniqueID: 3995580849
+    locked: 0
+  - name: Obstacle
+    uniqueID: 2957676417
+    locked: 0
+  - name: Enemy
+    uniqueID: 2294198437
+    locked: 0
+  - name: Player
+    uniqueID: 2149605129
+    locked: 0
+  - name: UI
+    uniqueID: 2519403751
     locked: 0

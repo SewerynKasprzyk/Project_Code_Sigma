@@ -171,8 +171,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2145362167
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 790490695, guid: 4e0fbf10a7a05574b94d5cea37f43bbd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -255,7 +255,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.95}
+  m_Size: {x: 0.2, y: 0.3}
   m_EdgeRadius: 0
 --- !u!95 &6748427766617707779
 Animator:
@@ -307,8 +307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHp: 10
   playerMovementSpeed: 5
-  playerDamage: 0
+  attackDamage: 0
+  attackSpeed: 0
+  attackRange: 0
+  popUpPrefab: {fileID: 0}
   player: {fileID: 3104401511704044312}
+  damageCooldown: 1
 --- !u!114 &2743223555586042638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,11 +373,11 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.4
-  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
-  m_Intensity: 5
+  m_Color: {r: 1, g: 0.4043548, b: 0, a: 1}
+  m_Intensity: 1.25
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 000000002bc65587b1b927ee818f4ab0a5b0be88095f2080
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -391,8 +395,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0.5
-  m_PointLightOuterRadius: 3
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 4.3
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

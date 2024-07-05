@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 {
@@ -11,19 +12,45 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     private int dungeonWidth = 20, dungeonHeight = 20;
 
     [SerializeField]
+    [Range(1, 3)]
+    private int corridorWidth = 2;
+
+    [SerializeField]
     [Range(0, 10)]
     private int offset = 1;
 
     [SerializeField]
     private bool randomWalkRooms = false;
 
+    private DungeonData dungeonData;
+
+    public UnityEvent OnFinishedRoomGeneration;
+
+    private void Awake()
+    {
+        tilemapVisualizer.Clear();
+        RunProceduralGeneration();
+    }
+
     override protected void RunProceduralGeneration()
     {
+        dungeonData = FindAnyObjectByType<DungeonData>();
+        if (dungeonData == null)
+        {
+            dungeonData = new GameObject("DungeonData").AddComponent<DungeonData>();
+        }
+
+
         CreateRooms();
+
+        OnFinishedRoomGeneration.Invoke();
     }
 
     private void CreateRooms()
     {
+
+        dungeonData.Reset();
+
         var roomList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
 
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
@@ -44,6 +71,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
+        dungeonData.Path = corridors;
+
         floorPositions.UnionWith(corridors);
 
 
@@ -60,16 +89,20 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             var room = roomList[i];
             Vector2Int roomCenter = new Vector2Int(Mathf.RoundToInt(room.center.x), Mathf.RoundToInt(room.center.y));
             var roomFloor = RunRandomWalk(randomWalkParameters, roomCenter);
-            
+
             foreach (var position in roomFloor)
             {
-                if(position.x >= (room.xMin + offset) && position.x <= (room.xMax - offset) && position.y >= (room.yMin - offset) && position.y <= (room.yMax - offset))
+                if (position.x >= (room.xMin + offset) && position.x <= (room.xMax - offset) && position.y >= (room.yMin - offset) && position.y <= (room.yMax - offset))
                 {
                     floorPositions.Add(position);
                 }
             }
+
+            Room room1 = new Room(roomCenter, floorPositions);
+            dungeonData.Rooms.Add(room1);
         }
 
+        Debug.Log("Rooms created: " + dungeonData.Rooms.Count);
         return floorPositions;
     }
 
@@ -87,6 +120,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             currentRoom = closest;
             corridors.UnionWith(newCorridor);
         }
+
         return corridors;
     }
 
@@ -98,11 +132,11 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
         while (position.y != closest.y)
         {
-            if(position.y < closest.y)
+            if (position.y < closest.y)
             {
                 position += Vector2Int.up;
             }
-            else if(position.y > closest.y)
+            else if (position.y > closest.y)
             {
                 position += Vector2Int.down;
             }
@@ -157,8 +191,84 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                     floorPositions.Add(position);
                 }
             }
+
+            Vector2Int roomCenter = new Vector2Int(Mathf.RoundToInt(room.center.x), Mathf.RoundToInt(room.center.y));
+
+            Room room1 = new Room(roomCenter, floorPositions);
+            dungeonData.Rooms.Add(room1);
         }
 
+        Debug.Log("Rooms created: " + dungeonData.Rooms.Count);
         return floorPositions;
+    }
+
+    private List<Vector2Int> IncreaseCorridorBrush3By3(List<Vector2Int> corridor)
+    {
+        List<Vector2Int> newCorridor = new List<Vector2Int>();
+
+        for (int i = 1; i < corridor.Count; i++)
+        {
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    newCorridor.Add(corridor[i - 1] + new Vector2Int(x, y));
+                }
+            }
+        }
+        return newCorridor;
+    }
+
+    private List<Vector2Int> IncreaseCorridorSizeByOne(List<Vector2Int> corridor)
+    {
+        List<Vector2Int> newCorridor = new List<Vector2Int>();
+        Vector2Int previewDirection = Vector2Int.zero;
+
+        for (int i = 1; i < corridor.Count; i++)
+        {
+            Vector2Int direction = corridor[i] - corridor[i - 1];
+            if (previewDirection != Vector2Int.zero && direction != previewDirection)
+            {
+                for (int x = -1; x <= 2; x++)
+                {
+                    for (int y = -1; y <= 2; y++)
+                    {
+                        newCorridor.Add(corridor[i - 1] + new Vector2Int(x, y));
+                    }
+                }
+                previewDirection = direction;
+            }
+
+            else
+            {
+                Vector2Int newTileOffset = GetDirection90From(direction);
+                newCorridor.Add(corridor[i - 1]);
+                newCorridor.Add(corridor[i - 1] + newTileOffset);
+            }
+        }
+
+        return newCorridor;
+    }
+
+    private Vector2Int GetDirection90From(Vector2Int direction)
+    {
+        if (direction == Vector2Int.up)
+        {
+            return Vector2Int.right;
+        }
+        else if (direction == Vector2Int.down)
+        {
+            return Vector2Int.left;
+        }
+        else if (direction == Vector2Int.left)
+        {
+            return Vector2Int.up;
+        }
+        else if (direction == Vector2Int.right)
+        {
+            return Vector2Int.down;
+        }
+
+        return Vector2Int.zero;
     }
 }
