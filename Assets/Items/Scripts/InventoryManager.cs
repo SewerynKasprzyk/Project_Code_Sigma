@@ -26,6 +26,7 @@ public class InventoryManager : MonoBehaviour
     {
         weaponSOLib = GameObject.Find("InventoryCanvas").GetComponent<WeaponSOLib>();
         utilitySOLib = GameObject.Find("InventoryCanvas").GetComponent<UtilitySOLib>();
+        //GameObject.DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
