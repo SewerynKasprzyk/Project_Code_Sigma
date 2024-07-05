@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,7 +29,7 @@ public class SecondTutorialManager : MonoBehaviour
         // zainicjowaæ pierwszy popup, jeœli jest potrzebny od razu po uruchomieniu.
         if (popUps.Length > 0)
         {
-            popUps[0].SetActive(true);
+            StartCoroutine(DisplayPopupForTwoSec(0, 0.5f));
         }
 
     }
@@ -42,14 +43,17 @@ public class SecondTutorialManager : MonoBehaviour
         }
 
         //For every kill of enemy increment int counter, when counter is 5 the next popup will be displayed
-        if (popUpIndex == 0 && enemy == null)
+        if (popUpIndex == 0)
         {
-            /*int counter = 0;
-            counter++;
+            int counter = 0;
             if (counter == 5)
-            {*/
-            StartCoroutine(DisplayPopupForTwoSec(popUpIndex + 1, 0.5f));
-            //}
+            {
+                StartCoroutine(DisplayPopupForTwoSec(popUpIndex + 1, 0.5f));
+            }
+            else if(enemy == null)
+            {
+                counter++; 
+            }
         }
         else if (popUpIndex == 1 && enemy2 == null)
         {
