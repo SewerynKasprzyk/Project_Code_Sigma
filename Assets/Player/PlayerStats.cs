@@ -57,15 +57,8 @@ public class PlayerStats : MonoBehaviour
         {
             // Odejmowanie zwyk�ych obra�e�
             TakeDamage(enemyCollision.enemyDamage);
-            GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
-
-            // Sprawdzenie, czy up�yn�� wystarczaj�cy czas od ostatniego otrzymania obra�e� od broni
-            if (Time.time - lastDamageTime > damageCooldown)
-            {
-                popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
-            }
-            
-            popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyWeaponDamage.ToString();
+            //GameObject popUp = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+            //popUp.GetComponentInChildren<TMP_Text>().text = enemyCollision.enemyDamage.ToString();
         }
     }
 
