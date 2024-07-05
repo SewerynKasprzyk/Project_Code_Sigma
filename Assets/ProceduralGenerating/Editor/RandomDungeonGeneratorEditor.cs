@@ -11,6 +11,8 @@ public class RandomDungeonGeneratorEditor : Editor
     private void Awake()
     {
         generator = (AbstractDungeonGenerator)target;
+
+        generator.GenerateDungeon();
     }
 
     public override void OnInspectorGUI()

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01ab2d6f691aa124396de719d6091796, type: 3}
-  m_Name: Torch
+  m_Name: Chest
   m_EditorClassIdentifier: 
-  PropSprite: {fileID: -1098226749, guid: 8490798b2e566f147886cd13e4e98b1b, type: 3}
+  PropSprite: {fileID: -154962121, guid: 33194ee3ec91f2b4898577f76ca99de0, type: 3}
   PropSize: {x: 1, y: 1}
-  LightEmission: 0.701
+  LightEmission: 0
   Corner: 0
-  NearWallUP: 1
+  NearWallUP: 0
   NearWallDown: 0
   NearWallRight: 0
   NearWallLeft: 0
-  Inner: 0
+  Inner: 1
   PlacementQuantityMin: 1
   PlacementQuantityMax: 1
   PlaceAsGroup: 0

@@ -26,6 +26,11 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     public UnityEvent OnFinishedRoomGeneration;
 
+    private void Awake()
+    {
+        tilemapVisualizer.Clear();
+        RunProceduralGeneration();
+    }
 
     override protected void RunProceduralGeneration()
     {

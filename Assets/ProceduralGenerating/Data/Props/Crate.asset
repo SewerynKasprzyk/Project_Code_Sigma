@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01ab2d6f691aa124396de719d6091796, type: 3}
-  m_Name: Torch
+  m_Name: Crate
   m_EditorClassIdentifier: 
-  PropSprite: {fileID: -1098226749, guid: 8490798b2e566f147886cd13e4e98b1b, type: 3}
+  PropSprite: {fileID: -136997722, guid: 0ea98ab2062915644bde75a31b072593, type: 3}
   PropSize: {x: 1, y: 1}
-  LightEmission: 0.701
+  LightEmission: 0
   Corner: 0
   NearWallUP: 1
   NearWallDown: 0
@@ -23,6 +23,6 @@ MonoBehaviour:
   Inner: 0
   PlacementQuantityMin: 1
   PlacementQuantityMax: 1
-  PlaceAsGroup: 0
+  PlaceAsGroup: 1
   GroupMinCount: 1
-  GroupMaxCount: 1
+  GroupMaxCount: 3

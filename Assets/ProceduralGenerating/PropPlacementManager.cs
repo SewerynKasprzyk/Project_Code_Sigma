@@ -28,6 +28,8 @@ public class PropPlacementManager : MonoBehaviour
 
     public void ProcessRooms()
     {
+        dungeonData = FindObjectOfType<DungeonData>();
+
         if (dungeonData == null)
             return;
         foreach (Room room in dungeonData.Rooms)
@@ -76,15 +78,14 @@ public class PropPlacementManager : MonoBehaviour
             PlaceProps(room, innerProps, room.InnerTiles, PlacementOriginCorner.BottomLeft);
         }
 
-        //OnFinished?.Invoke();
-        Invoke("RunEvent", 1);
+        OnFinished?.Invoke();
+        //Invoke("RunEvent", 1);
 
     }
 
     public void RunEvent()
     {
         OnFinished?.Invoke();
-        OnFinished?.RemoveAllListeners();
     }
 
     private IEnumerator TutorialCoroutine(Action code)

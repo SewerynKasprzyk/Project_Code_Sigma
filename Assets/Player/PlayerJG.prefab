@@ -255,7 +255,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.95}
+  m_Size: {x: 0.2, y: 0.3}
   m_EdgeRadius: 0
 --- !u!95 &6748427766617707779
 Animator:
@@ -307,9 +307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHp: 10
   playerMovementSpeed: 5
-  playerDamage: 0
+  attackDamage: 0
+  attackSpeed: 0
+  attackRange: 0
   popUpPrefab: {fileID: 0}
   player: {fileID: 3104401511704044312}
+  damageCooldown: 1
 --- !u!114 &2743223555586042638
 MonoBehaviour:
   m_ObjectHideFlags: 0

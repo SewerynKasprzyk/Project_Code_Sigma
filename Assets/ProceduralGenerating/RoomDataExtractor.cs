@@ -19,8 +19,13 @@ public class RoomDataExtractor : MonoBehaviour
     }
     public void ProcessRooms()
     {
+        dungeonData = FindObjectOfType<DungeonData>();
+
         if (dungeonData == null)
+        {
+            Debug.LogError("No dungeon data found");
             return;
+        }
 
         foreach (Room room in dungeonData.Rooms)
         {
@@ -64,14 +69,13 @@ public class RoomDataExtractor : MonoBehaviour
             room.NearWallTilesRight.ExceptWith(room.CornerTiles);          
         }
 
-        //OnFinishedRoomProcessing?.Invoke();
-        Invoke("RunEvent", 1);
+        OnFinishedRoomProcessing?.Invoke();
+        //Invoke("RunEvent", 1);
     }
 
     public void RunEvent()
     {
         OnFinishedRoomProcessing?.Invoke();
-        OnFinishedRoomProcessing?.RemoveAllListeners();
     }
 
     private void OnDrawGizmosSelected()

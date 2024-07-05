@@ -60,7 +60,7 @@ public class AgentPlacer : MonoBehaviour
             //Place the player
             if(i==playerRoomIndex)
             {
-                GameObject player = Instantiate(playerPrefab);
+                GameObject player = GameObject.FindWithTag("Player");
                 player.transform.localPosition = dungeonData.Rooms[i].RoomCenterPos + Vector2.one*0.5f;
                 //Make the camera follow the player
                 vCamera.Follow = player.transform;
@@ -84,6 +84,7 @@ public class AgentPlacer : MonoBehaviour
                 return;
             }
             GameObject enemy = Instantiate(enemyPrefab);
+            enemy.GetComponent<BoxCollider2D>().enabled = true;
             enemy.transform.localPosition = (Vector2)room.PositionsAccessibleFromPath[k] + Vector2.one*0.5f;
             room.EnemiesInTheRoom.Add(enemy);
         }

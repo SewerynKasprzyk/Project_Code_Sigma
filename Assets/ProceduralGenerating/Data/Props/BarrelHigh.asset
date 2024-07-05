@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BarrelHigh
   m_EditorClassIdentifier: 
   PropSprite: {fileID: -224627777, guid: 0ea98ab2062915644bde75a31b072593, type: 3}
-  PropSize: {x: 1, y: 2}
+  PropSize: {x: 1, y: 1}
   LightEmission: 0
   Corner: 0
   NearWallUP: 0
