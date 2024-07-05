@@ -44,7 +44,7 @@ public class EnemyStats : MonoBehaviour
         {
             Debug.LogError("Rigidbody2D component not found on enemy object");
         }
-        if (enemyControll == null)
+        if (enemyControll == null && !enemy.CompareTag("Boss"))
         {
             Debug.LogError("EnemyControll component not found on enemy object");
         }

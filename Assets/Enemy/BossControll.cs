@@ -21,7 +21,9 @@ namespace Assets.Enemy
         public float bossAttackRange;
 
         private bool isRandomMoving = false;
+        private PolygonCollider2D attackArea;
         public float randomMoveDuration;
+        private bool isAttackAnimation = false;
 
         void Start()
         {
@@ -29,12 +31,22 @@ namespace Assets.Enemy
             player = GameObject.FindGameObjectWithTag("Player");
             anim = boss.GetComponent<Animator>();
             spriteRenderer = boss.GetComponent<SpriteRenderer>();
+            attackArea = boss.GetComponentInChildren<PolygonCollider2D>();
             BossInit();
+
+            attackArea.enabled = false;
+
+            if (attackArea != null)
+            {
+                Debug.Log("Attack area found");
+
+            }
         }
 
         private void Update()
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
 
             if (distanceToPlayer <= bossVisionRange)
             {
@@ -48,16 +60,35 @@ namespace Assets.Enemy
                 }
             }
 
-            if (distanceToPlayer <= bossAttackRange)
+            if (distanceToPlayer <= bossAttackRange && !isAttackAnimation)
             {
                 RandomBossAttack();
+                StartCoroutine(EndAttackAnimation());
             }
+
+            if(isAttackAnimation)
+            {
+                StopCoroutine(EndAttackAnimation());
+            }
+
+            Debug.Log("Status " + isAttackAnimation);
+
         }
+        private IEnumerator EndAttackAnimation()
+        {
+            yield return new WaitForSeconds(2.5f);
+            isAttackAnimation = false;
+        }
+
+        
+             
 
         public void AIChase()
         {
             float distance = Vector2.Distance(boss.transform.position, player.transform.position);
             Vector2 direction = (player.transform.position - boss.transform.position).normalized;
+
+            
 
             if (distance < bossVisionRange)
             {
@@ -157,6 +188,7 @@ namespace Assets.Enemy
         public void RandomBossAttack()
         {
             // Randomly select an attack based on the number of animations that are sub-objects of the boss
+            isAttackAnimation = true;
             int randomAttack = UnityEngine.Random.Range(0, boss.transform.childCount);
 
             Debug.Log("Random attack: " + randomAttack);
@@ -164,12 +196,15 @@ namespace Assets.Enemy
             // Pobierz obiekt potomny bossa na podstawie losowego indeksu
             GameObject attackObject = boss.transform.GetChild(randomAttack).gameObject;
 
-            // Sprawdź, czy obiekt posiada komponent Animator
-            Animator attackAnimator = attackObject.GetComponent<Animator>();
-            if (attackAnimator != null)
+            //Dostań się do polygon collidera z obiektu ataku
+            attackArea = attackObject.GetComponent<PolygonCollider2D>();
+            attackArea.enabled = true;
+            
+            // Sprawdź, czy obiekt posiada komponent Animator        
+            if (anim != null)
             {
                 // Jeśli obiekt posiada Animator, ustaw animację
-                attackAnimator.SetTrigger("Attack" + randomAttack);
+                anim.SetTrigger("isAttacking" + randomAttack);
             }
             else
             {
@@ -177,13 +212,13 @@ namespace Assets.Enemy
                 Debug.LogWarning("Animator component not found on " + attackObject.name);
             }
 
-            // Sprawdź, czy obiekt posiada PolygonCollider2D
-            PolygonCollider2D collider = attackObject.GetComponent<PolygonCollider2D>();
-            if (collider != null)
-            {
-                collider.enabled = true;
-            }
+
+           
+
         }
+
+       
+
 
 
 
@@ -216,35 +251,40 @@ namespace Assets.Enemy
             anim.SetBool("isAttacking", true);
         }
 
-        //private void StartAtackHitbox()
-        //{
-        //    if (attackCollider != null)
-        //    {
-        //        attackCollider.enabled = true;
-        //    }
-        //}
+        private void StartAtackHitbox()
+        {
+            if (attackArea != null)
+            {
+                attackArea.enabled = true;
+            }
+        }
 
-        //private void EndAttackHitbox()
-        //{
-        //    if (attackCollider != null)
-        //    {
-        //        attackCollider.enabled = false;
-        //    }
-        //}
+        private void EndAttackHitbox()
+        {
+            if (attackArea != null)
+            {
+                attackArea.enabled = false;
+            }
+        }
 
         private void EndAttack1()
         {
-            anim.SetBool("isAttacking1", false);
+            isAttackAnimation = false;
+            anim.SetBool("isAttacking1", false);            
+
         }
 
         private void EndAttack2()
         {
-            anim.SetBool("isAttacking2", false);
+            isAttackAnimation = false;
+            anim.SetBool("isAttacking2", false);        
+
         }
 
         private void EndAttack3()
         {
-            anim.SetBool("isAttacking3", false);
+            isAttackAnimation = false;
+            anim.SetBool("isAttacking3", false);            
         }
     }
 }
