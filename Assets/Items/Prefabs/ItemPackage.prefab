@@ -1524,7 +1524,7 @@ GameObject:
   - component: {fileID: 8290592035433061009}
   m_Layer: 0
   m_Name: ItemPackage
-  m_TagString: Untagged
+  m_TagString: Inventory
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,6 +9,7 @@ TagManager:
   - Spawn
   - Boss
   - Attack
+  - Inventory
   layers:
   - Default
   - TransparentFX
