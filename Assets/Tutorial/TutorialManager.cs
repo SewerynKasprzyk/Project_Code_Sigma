@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Diagnostics.Tracing;
-using UnityEditor.Rendering.LookDev;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
