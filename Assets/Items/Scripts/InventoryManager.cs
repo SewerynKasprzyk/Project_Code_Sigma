@@ -3,16 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
     public GameObject inventoryPanel;
     public GameObject utilityPanel;
+    public GameObject dialogPanel;
     public ItemSlot[] itemSlot;
     public UtilitySlot[] utilitySlot;
-
+    //public DialogSlot[] dialogSlot = new DialogSlot[1];
     private int lastThisWeaponSlotSelected = -1;
     private int lastThisUtlilitySlotSelected = -1;
+    private bool isEPressed = false;
+    private bool isUsePerformed = false;
+
     private WeaponSOLib weaponSOLib;
     private UtilitySOLib utilitySOLib;
 
@@ -35,6 +40,11 @@ public class InventoryManager : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha4)) key = KeyCode.Alpha4;
             else if (Input.GetKeyDown(KeyCode.Alpha5)) key = KeyCode.Alpha5;
             else if (Input.GetKeyDown(KeyCode.Alpha6)) key = KeyCode.Alpha6;
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                key = KeyCode.E;
+                isEPressed = true;
+            }
 
             switch (key)
             {
@@ -62,10 +72,20 @@ public class InventoryManager : MonoBehaviour
                     Debug.Log("Pressed 6");
                     ActivateUtilitySlot(2);
                     break;
+                case KeyCode.E:
+                    if (lastThisUtlilitySlotSelected >= 0)
+                    {
+                        ActivateUtilitySlot(lastThisUtlilitySlotSelected);
+                    }
+                    break;
                 default:
                     // Opcjonalnie: obs³uga innych klawiszy lub brak akcji
                     break;
             }
+        }
+        else
+        {
+            isEPressed = false;
         }
     }
 
@@ -110,8 +130,7 @@ public class InventoryManager : MonoBehaviour
             utilitySlot[index].SelectedShader.SetActive(true); // Aktywuj shader dla wybranego slotu
             utilitySlot[index].thisItemSelected = true; // Oznacz slot jako wybrany
 
-
-            if (lastThisUtlilitySlotSelected != index)
+            if (lastThisUtlilitySlotSelected != index && !isEPressed)
             {
                 Debug.Log("Nie u¿yto" + utilitySlot[index].itemName);
             }
@@ -129,7 +148,14 @@ public class InventoryManager : MonoBehaviour
                     }
                 }
             }
-            lastThisUtlilitySlotSelected = index; // Zapamiêtaj ostatni wybrany slot
+            if (isUsePerformed)
+            {
+                isUsePerformed = false;
+            }
+            else
+            {
+                lastThisUtlilitySlotSelected = index; // Zapamiêtaj ostatni wybrany slot
+            }
         }
     }
 
@@ -137,16 +163,17 @@ public class InventoryManager : MonoBehaviour
     {
         if (index >= 0 && index < utilitySlot.Length)
         {
+            isUsePerformed = true;
+            lastThisUtlilitySlotSelected = -1;
             utilitySlot[index].thisItemSelected = false;
             utilitySlot[index].ClearSlot();
         }
     }
-
-    public void AddItem(string itemName, Sprite itemSprite, ItemType itemType)
+    public void AddWeaponItem(string itemName, Sprite itemSprite, ItemType itemType)
     {
-        if (itemType == ItemType.Weapon)
+        if(itemType == ItemType.Weapon)
         {
-            Debug.Log("Added " + itemName + " to inventory");
+            Debug.Log("Added " + itemName + " dialog");
 
             for (int i = 0; i < itemSlot.Length; i++)
             {
@@ -157,7 +184,41 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-        else 
+
+    }
+    public void AddUtilityItem(string itemName, Sprite itemSprite, ItemType itemType)
+    {
+        if(itemType== ItemType.Consumable)
+        {
+            Debug.Log("Added " + itemName + " to inventory");
+
+            for (int i = 0; i < utilitySlot.Length; i++)
+            {
+                if (utilitySlot[i].isFull == false)
+                {
+                    utilitySlot[i].AddItem(itemName, itemSprite, itemType);
+                    return;
+                }
+            }
+        }
+    }
+
+/*    public void AddItem(string itemName, Sprite itemSprite, ItemType itemType)
+    {
+        if (itemType == ItemType.Weapon)
+        {
+            Debug.Log("Added " + itemName + " dialog");
+
+            for (int i = 0; i < itemSlot.Length; i++)
+            {
+                if (itemSlot[i].isFull == false)
+                {
+                    itemSlot[i].AddItem(itemName, itemSprite, itemType);
+                    return;
+                }
+            }
+        }
+        else
         {
             Debug.Log("Added " + itemName + " to inventory");
 
@@ -170,21 +231,62 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+    }*/
+    public void ShowInventoryFullDialog(string itemName, Sprite itemSprite, ItemType itemType)
+    {
+        //currentItem = item;
+
+        if (dialogPanel != null)
+        {
+            dialogPanel.SetActive(true);
+            for (int i = 0; i < weaponSOLib.weaponSOs.Length; i++)
+            {
+                if (weaponSOLib.weaponSOs[i].itemName == itemName)
+                    weaponSOLib.weaponSOs[i].DialogSet(itemSprite);
+            }
+        }
+    }
+    public void HideInventoryFullDialog(string itemName)
+    {
+        //Debug.Log("przed null");
+        if (dialogPanel != null)
+        {
+            //Debug.Log("po null");
+            for (int i = 0; i < weaponSOLib.weaponSOs.Length; i++)
+            {
+                if (weaponSOLib.weaponSOs[i].itemName == itemName)
+                weaponSOLib.weaponSOs[i].DialogClear();
+                dialogPanel.SetActive(false);
+            }
+        }
     }
 
-  /*public void ReplaceItem(int slotIndex, Item item)
-    {
+   
 
-        itemSlot[slotIndex].AddItem(item.GetItemName(), item.GetItemSprite());
-        itemSlot[slotIndex].isFull = true;
-        Debug.Log("Replaced item in slot " + slotIndex);
-    }*/
+    /*public void ReplaceItem(int slotIndex, Item item)
+      {
 
-    public bool IsInventoryFull()
+          itemSlot[slotIndex].AddItem(item.GetItemName(), item.GetItemSprite());
+          itemSlot[slotIndex].isFull = true;
+          Debug.Log("Replaced item in slot " + slotIndex);
+      }*/
+
+    public bool IsInventoryWeaponFull()
     {
         for (int i = 0; i < itemSlot.Length; i++)
         {
             if (itemSlot[i].isFull == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public bool IsInventoryUtilityFull()
+    {
+        for (int i = 0; i < utilitySlot.Length; i++)
+        {
+            if (utilitySlot[i].isFull == false)
             {
                 return false;
             }
@@ -208,6 +310,8 @@ public class InventoryManager : MonoBehaviour
             utilitySlot[i].thisItemSelected = false;
         }
     }
+
+
 }
 
 public enum ItemType

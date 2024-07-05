@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu]
 public class WeaponSO : ScriptableObject
@@ -27,5 +29,25 @@ public class WeaponSO : ScriptableObject
         playerStats.attackRange -= attackRange;
     }
 
+    public void DialogSet(Sprite itemsprite)
+    {
+        DialogStats dialogStats = GameObject.Find("DialogWindowPanel").GetComponent<DialogStats>();
+        Debug.Log("przed zmiana nazwy");
+        dialogStats.Name.text = itemName;
+        Debug.Log("zmiana nazwy");
+        dialogStats.Damage.SetText(attackDamage.ToString());
+        dialogStats.Speed.SetText(attackSpeed.ToString());
+        dialogStats.Range.SetText(attackRange.ToString());
+        dialogStats.itemImage.sprite = itemsprite;
+    }
 
+    public void DialogClear()
+    {
+        //itemName = null;
+        //DialogStats dialogStats = GameObject.Find("DialogWindowPanel").GetComponent<DialogStats>();
+        //dialogStats.Damage.SetText("");
+        //dialogStats.Speed.SetText("");
+        //dialogStats.Range.SetText("");
+        //dialogStats.itemImage.sprite = null;
+    }
 }

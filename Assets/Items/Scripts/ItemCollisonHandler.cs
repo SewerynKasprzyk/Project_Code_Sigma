@@ -55,8 +55,8 @@ public class ItemCollisonHandler : MonoBehaviour
     public void HidePickUpDialog()
     {
        if(DialogWindowPanel != null)
-        {
+       {
             DialogWindowPanel.SetActive(false);
-        }
+       }
     }
 }

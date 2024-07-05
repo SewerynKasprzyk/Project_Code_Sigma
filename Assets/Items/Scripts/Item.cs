@@ -13,6 +13,7 @@ public class Item : MonoBehaviour
     public ItemType itemType;
     [SerializeField] private int tier;
     private InventoryManager InventoryManager;
+    private bool isPanelActive = false;
 
     private void Start()
     {
@@ -25,25 +26,38 @@ public class Item : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if(!InventoryManager.IsInventoryFull())
+            if (!InventoryManager.IsInventoryWeaponFull() && itemType == ItemType.Weapon)
             {
-                InventoryManager.AddItem(itemName, itemSprite, itemType);
+                InventoryManager.AddWeaponItem(itemName, itemSprite, itemType);
                 Destroy(gameObject);
-
+                Debug.Log("kurwa");
             }
-            //else
-            //itemCollisonHandler.ShowPickUpDialog(this);
+            else
+            {
+                InventoryManager.ShowInventoryFullDialog(itemName, itemSprite, itemType);
+                isPanelActive = true;
+            }
+            if (!InventoryManager.IsInventoryUtilityFull() && itemType == ItemType.Consumable)
+            {
+                InventoryManager.AddUtilityItem(itemName, itemSprite, itemType);
+                Destroy(gameObject);
+                Debug.Log("taco");
+            }
         }
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //itemCollisonHandler.HidePickUpDialog();
+            if (isPanelActive)
+            {
+                InventoryManager.HideInventoryFullDialog(itemName);
+                isPanelActive = false;
+            }
         }
     }
+
 
     protected Item()
     {
