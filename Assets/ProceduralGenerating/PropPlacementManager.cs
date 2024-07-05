@@ -101,30 +101,28 @@ public class PropPlacementManager : MonoBehaviour
     /// <param name="availableTiles">Tiles that are near the specific wall</param>
     /// <param name="placement">How to place bigger props. Ex near top wall we want to start placemt from the Top corner and find if there are free spaces below</param>
     private void PlaceProps(
-        Room room, List<Prop> wallProps, HashSet<Vector2Int> availableTiles, PlacementOriginCorner placement)
+    Room room, List<Prop> wallProps, HashSet<Vector2Int> availableTiles, PlacementOriginCorner placement)
     {
-        //Remove path positions from the initial nearWallTiles to ensure the clear path to traverse dungeon
+        // Remove path positions from the initial nearWallTiles to ensure the clear path to traverse dungeon
         HashSet<Vector2Int> tempPositons = new HashSet<Vector2Int>(availableTiles);
         tempPositons.ExceptWith(dungeonData.Path);
 
-        //We will try to place all the props
+        // We will try to place all the props
         foreach (Prop propToPlace in wallProps)
         {
-            //We want to place only certain quantity of each prop
-            int quantity
-                = UnityEngine.Random.Range(propToPlace.PlacementQuantityMin, propToPlace.PlacementQuantityMax + 1);
+            // We want to place only certain quantity of each prop
+            int quantity = UnityEngine.Random.Range(propToPlace.PlacementQuantityMin, propToPlace.PlacementQuantityMax + 1);
 
             for (int i = 0; i < quantity; i++)
             {
-                //remove taken positions
+                // Remove taken positions
                 tempPositons.ExceptWith(room.PropPositions);
-                //shuffel the positions
+                // Shuffle the positions
                 List<Vector2Int> availablePositions = tempPositons.OrderBy(x => Guid.NewGuid()).ToList();
-                //If placement has failed there is no point in trying to place the same prop again
+                // If placement has failed there is no point in trying to place the same prop again
                 if (TryPlacingPropBruteForce(room, propToPlace, availablePositions, placement) == false)
                     break;
             }
-
         }
     }
 
@@ -137,33 +135,32 @@ public class PropPlacementManager : MonoBehaviour
     /// <param name="placement"></param>
     /// <returns>False if there is no space. True if placement was successful</returns>
     private bool TryPlacingPropBruteForce(
-        Room room, Prop propToPlace, List<Vector2Int> availablePositions, PlacementOriginCorner placement)
+    Room room, Prop propToPlace, List<Vector2Int> availablePositions, PlacementOriginCorner placement)
     {
-        //try placing the objects starting from the corner specified by the placement parameter
+        // Try placing the objects starting from the corner specified by the placement parameter
         for (int i = 0; i < availablePositions.Count; i++)
         {
-            //select the specified position (but it can be already taken after placing the corner props as a group)
+            // Select the specified position (but it can be already taken after placing the corner props as a group)
             Vector2Int position = availablePositions[i];
             if (room.PropPositions.Contains(position))
                 continue;
 
-            //check if there is enough space around to fit the prop
-            List<Vector2Int> freePositionsAround
-                = TryToFitProp(propToPlace, availablePositions, position, placement);
+            // Check if there is enough space around to fit the prop
+            List<Vector2Int> freePositionsAround = TryToFitProp(propToPlace, availablePositions, position, placement);
 
-            //If we have enough spaces place the prop
+            // If we have enough spaces place the prop
             if (freePositionsAround.Count == propToPlace.PropSize.x * propToPlace.PropSize.y)
             {
-                //Place the gameobject
+                // Place the gameobject
                 PlacePropGameObjectAt(room, position, propToPlace);
-                //Lock all the positions recquired by the prop (based on its size)
+                // Lock all the positions required by the prop (based on its size)
                 foreach (Vector2Int pos in freePositionsAround)
                 {
-                    //Hashest will ignore duplicate positions
+                    // HashSet will ignore duplicate positions
                     room.PropPositions.Add(pos);
                 }
 
-                //Deal with groups
+                // Deal with groups
                 if (propToPlace.PlaceAsGroup)
                 {
                     PlaceGroupObject(room, position, propToPlace, 1);
@@ -333,25 +330,23 @@ public class PropPlacementManager : MonoBehaviour
     /// <returns></returns>
     private GameObject PlacePropGameObjectAt(Room room, Vector2Int placementPostion, Prop propToPlace)
     {
-        //Instantiat the prop at this positon
+        // Instantiate the prop at this position
         GameObject prop = Instantiate(propPrefab);
         SpriteRenderer propSpriteRenderer = prop.GetComponentInChildren<SpriteRenderer>();
         Light2D light = prop.GetComponentInChildren<Light2D>();
 
-        //set the sprite
+        // Set the sprite
         propSpriteRenderer.sprite = propToPlace.PropSprite;
         light.intensity = propToPlace.LightEmission;
 
-        //Add a collider
-        CapsuleCollider2D collider
-            = propSpriteRenderer.gameObject.AddComponent<CapsuleCollider2D>();
+        // Add a collider
+        CapsuleCollider2D collider = propSpriteRenderer.gameObject.AddComponent<CapsuleCollider2D>();
         collider.offset = Vector2.zero;
         if (propToPlace.PropSize.x > propToPlace.PropSize.y)
         {
             collider.direction = CapsuleDirection2D.Horizontal;
         }
-        Vector2 size
-            = new Vector2(propToPlace.PropSize.x * 0.8f, propToPlace.PropSize.y * 0.8f);
+        Vector2 size = new Vector2(propToPlace.PropSize.x * 0.8f, propToPlace.PropSize.y * 0.8f);
         collider.size = size;
 
         if (light.intensity > 0)
@@ -361,11 +356,10 @@ public class PropPlacementManager : MonoBehaviour
 
         prop.transform.localPosition = (Vector2)placementPostion;
 
-        //adjust the position to the sprite
-        propSpriteRenderer.transform.localPosition
-            = (Vector2)propToPlace.PropSize * 0.5f;
+        // Adjust the position to the sprite
+        propSpriteRenderer.transform.localPosition = (Vector2)propToPlace.PropSize * 0.5f;
 
-        //Save the prop in the room data (so in the dunbgeon data)
+        // Save the prop in the room data (so in the dungeon data)
         room.PropPositions.Add(placementPostion);
         room.PropObjectReferences.Add(prop);
         return prop;

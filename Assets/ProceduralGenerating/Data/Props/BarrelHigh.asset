@@ -23,6 +23,6 @@ MonoBehaviour:
   Inner: 0
   PlacementQuantityMin: 1
   PlacementQuantityMax: 1
-  PlaceAsGroup: 1
+  PlaceAsGroup: 0
   GroupMinCount: 1
   GroupMaxCount: 3
